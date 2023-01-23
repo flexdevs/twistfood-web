@@ -75,14 +75,12 @@ namespace TwistFood.Service.Services.Products
 
         public async Task<IEnumerable<ProductViewModel>> GetAllAsync(PagenationParams @params)
         {
-            var query = _unitOfWork.Products.GetAll()
-            .OrderBy(x => x.Id).ThenByDescending(x => x.Price);
-            var res = await _paginatorService.ToPageAsync(query,
-                @params.PageNumber, @params.PageSize);
+            /*var query = _unitOfWork.Products.GetAll()
+            .OrderBy(x => x.Id).ThenByDescending(x => x.Price).ToList();*/
 
-            List<ProductViewModel> result = new List<ProductViewModel>();
+            /*List<ProductViewModel> result = new List<ProductViewModel>();
 
-            foreach (var product in res)
+            foreach (var product in query)
             {
                 ProductViewModel productViewModel = new ProductViewModel()
                 {
@@ -96,7 +94,22 @@ namespace TwistFood.Service.Services.Products
                 result.Add(productViewModel);
             }
 
-            return result;
+            return result.Skip((@params.PageNumber - 1) * @params.PageSize)
+                          .Take(@params.PageSize);*/
+
+            var query = from product in _unitOfWork.Products.GetAll()
+                        orderby product.CreatedAt descending
+                        select new ProductViewModel()
+                        {
+                            Id = product.Id,
+                            ProductName = product.ProductName,
+                            ProductDescription = product.ProductDescription,
+                            Price = product.Price,
+                            ImagePath = product.ImagePath,
+                        };
+            return await query.Skip((@params.PageNumber - 1) * @params.PageSize)
+                              .Take(@params.PageSize).AsNoTracking()
+                              .ToListAsync();
         }
 
         public async Task<IEnumerable<ProductViewModel>> SearchByNameAsync(string name)
