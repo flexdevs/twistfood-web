@@ -1,0 +1,45 @@
+﻿@using TwistFood.Service.Dtos.Account;
+@model AccountRegisterDto
+@{
+    ViewData["Title"] = "Register Page";
+    Layout = "_AccountLayout.cshtml";
+}
+
+<div class="container">
+    <div class="forms">
+        <div class="form signup">
+            <span class="title">Ro'yhatdan ot'ish</span>
+
+            <form asp-area="" asp-controller="accounts" asp-action="register" method="post">
+                <div class="input-field">
+                    <input type="text" asp-for=FullName placeholder="Ism va familangizni kiriting" required>
+                    <i class="uil uil-user"></i>
+                </div>
+                <span asp-validation-for="FullName" class="text-danger"></span>
+                <div class="input-field">
+                    <input type="text" asp-for=PhoneNumber placeholder="Telefon raqamingizni kiriting" required>
+                    <i class="uil uil-lock icon"></i>
+                </div>
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+
+                <div class="checkbox-text">
+                    <div class="checkbox-content">
+                        <input type="checkbox" id="termCon">
+                        <label for="termCon" class="text">Men foydalanish shartlariga roziman</label>
+                    </div>
+                </div>
+
+                <div class="input-field button">
+                    <input type="submit" value="Ro'yhatdan o'tish">
+                </div>
+            </form>
+
+            <div class="login-signup">
+                <span class="text">
+                    Allaqachon a'zomisiz?
+                    <a class="text" asp-controller="accounts" asp-action="login">Kirish</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

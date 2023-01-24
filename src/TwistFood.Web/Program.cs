@@ -36,6 +36,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAuthManager, AuthManager>();
 builder.Services.AddScoped<IFileService, FileService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IPaginatorService, PaginatorService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 

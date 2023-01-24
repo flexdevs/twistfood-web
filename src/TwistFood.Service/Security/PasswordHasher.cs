@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TwistFood.Service.Security
+﻿namespace TwistFood.Service.Security
 {
     public class PasswordHasher
     {
