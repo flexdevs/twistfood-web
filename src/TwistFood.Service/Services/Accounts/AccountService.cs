@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ using TwistFood.Domain.Entities.Order;
 using TwistFood.Domain.Entities.Phones;
 using TwistFood.Domain.Entities.Users;
 using TwistFood.Domain.Exceptions;
+using TwistFood.Service.Common.Exceptions;
 using TwistFood.Service.Common.Helpers;
 using TwistFood.Service.Common.Utils;
 using TwistFood.Service.Dtos;
@@ -18,6 +20,7 @@ using TwistFood.Service.Dtos.Accounts;
 using TwistFood.Service.Interfaces;
 using TwistFood.Service.Interfaces.Accounts;
 using TwistFood.Service.Interfaces.Common;
+using TwistFood.Service.Security;
 using TwistFood.Service.Services.Common;
 
 namespace TwistFood.Service.Services.Accounts
@@ -28,6 +31,10 @@ namespace TwistFood.Service.Services.Accounts
         private IAuthManager _authManager;
         private IPaginatorService _paginatorService;
 
+        public AccountService()
+        {
+        }
+
         public AccountService(IUnitOfWork unitOfWork, 
                               IAuthManager authManager,
                               IPaginatorService paginatorService)
@@ -37,7 +44,15 @@ namespace TwistFood.Service.Services.Accounts
             _paginatorService = paginatorService;
         }
 
-     
+        public async Task<string> AccountLoginAsync(AccountLoginDto accountLoginDto)
+        {
+            var user = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.PhoneNumber == accountLoginDto.PhoneNumber);
+            if (user is null) throw new ModelErrorException(nameof(accountLoginDto.PhoneNumber), "Bunday telefon raqam bilan foydalanuvchi mavjud emas!");
+            
+            string token = _authManager.GenerateUserToken(user);
+            return token;
+        }
+
         public async Task<bool> AccountRegisterAsync(AccountRegisterDto accountRegisterDto)
         {
             var res = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.PhoneNumber == accountRegisterDto.PhoneNumber);

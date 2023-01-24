@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TwistFood.Service.Common.Exceptions;
+using TwistFood.Service.Dtos;
 using TwistFood.Service.Dtos.Account;
 using TwistFood.Service.Interfaces.Accounts;
 
@@ -17,6 +19,34 @@ namespace TwistFood.Web.Controllers
         public ViewResult Login()
         {
             return View("Login");
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> LoginAsync(AccountLoginDto accountLoginDto)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    string token = await _service.AccountLoginAsync(accountLoginDto);
+                    HttpContext.Response.Cookies.Append("X-Access-Token", token, new CookieOptions()
+                    {
+                        HttpOnly = true,
+                        SameSite = SameSiteMode.Strict
+                    });
+                    return RedirectToAction("Index", "Home", new { area = "" });
+                }
+                catch (ModelErrorException modelError)
+                {
+                    ModelState.AddModelError(modelError.Property, modelError.Message);
+                    return Login();
+                }
+                catch
+                {
+                    return Login();
+                }
+            }
+            else return Login();
         }
 
         [HttpGet("register")]
