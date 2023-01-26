@@ -23,8 +23,13 @@ using TwistFood.Service.Services.Products;
 using TwistFood.Service.Services;
 using Microsoft.EntityFrameworkCore;
 using TwistFood.Api.DbContexts;
+using System.Net;
+using TwistFood.Web.Middlewares;
+using TwistFood.Web.Configurations.LayerConfigarions;
+using TwistFood.Service.Dtos.Accounts;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddWeb(builder.Configuration);
 
 builder.Services.AddHttpContextAccessor();
 
@@ -39,6 +44,8 @@ builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IPaginatorService, PaginatorService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IIdentityService, IdentityService>();
+builder.Services.AddScoped<IVerifyPhoneNumberService, VerifyPhoneNumberService>();
 
 
 var app = builder.Build();
@@ -55,7 +62,15 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseStatusCodePages(async context =>
+{
+    if (context.HttpContext.Response.StatusCode == (int)HttpStatusCode.Unauthorized)
+    {
+        context.HttpContext.Response.Redirect("accounts/login");
+    }
+});
+app.UseMiddleware<TokenRedirectMiddleware>();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

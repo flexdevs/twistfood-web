@@ -65,7 +65,8 @@ public class AuthManager : IAuthManager
         {
             new Claim("Id", user.Id.ToString()),
             new Claim("FullName", user.FullName),
-            new Claim("PhoneNumber",user.PhoneNumber)
+            new Claim("PhoneNumber", user.PhoneNumber),
+
         };
 
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["SecretKey"]));

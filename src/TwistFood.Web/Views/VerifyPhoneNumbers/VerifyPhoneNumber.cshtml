@@ -1,0 +1,32 @@
+﻿@using TwistFood.Service.Dtos.Accounts;
+@model VerifyPhoneNumberDto
+@{
+    ViewData["Title"] = "Verify Phone Number";
+    Layout = "../Accounts/_AccountLayout.cshtml";
+}
+
+<div class="container">
+    <div class="forms">
+        <div class="form login">
+            <span class="title">Telefon raqamni tasdiqlash</span>
+
+            <form asp-area="" asp-controller="verify" asp-action="VerifyPhoneNumber" method="post">
+                <div class="input-field">
+                    <input type="text" asp-for=PhoneNumber placeholder="Telefon raqamingizni kiriting" value="@TempData["tel"]">
+                    <i class="uil uil-lock icon"></i>
+                </div>
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+
+                <div class="input-field">
+                    <input type="text" asp-for=Code placeholder="Sms kodni kiriting" required>
+                    <i class="uil uil-lock icon"></i>
+                </div>
+                <span asp-validation-for="Code" class="text-danger"></span>
+
+                <div class="input-field button">
+                    <input type="submit" value="Yuborish">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

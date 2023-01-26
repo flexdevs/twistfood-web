@@ -1,5 +1,5 @@
-﻿@using TwistFood.Service.Dtos.Account;
-@model AccountRegisterDto
+﻿@using TwistFood.Service.Dtos;
+@model AccountLoginDto
 @{
     ViewData["Title"] = "Login Page";
     Layout = "_AccountLayout.cshtml";
@@ -11,9 +11,8 @@
             <span class="title">Kirish</span>
 
             <form asp-area="" asp-controller="accounts" asp-action="login" method="post">
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                 <div class="input-field">
-                    <input type="number" asp-for=PhoneNumber placeholder="Telefon raqamingizni kiriting" required>
+                    <input type="text" asp-for=PhoneNumber placeholder="Telefon raqamingizni kiriting" required>
                     <i class="uil uil-lock icon"></i>
                 </div>
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
