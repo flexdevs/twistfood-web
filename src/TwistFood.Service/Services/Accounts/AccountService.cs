@@ -57,8 +57,8 @@ namespace TwistFood.Service.Services.Accounts
         {
             var res = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.PhoneNumber == accountRegisterDto.PhoneNumber);
             if (res is not null)
-                throw new StatusCodeException(HttpStatusCode.Conflict, "User is already exist");
-            
+                throw new ModelErrorException(nameof(accountRegisterDto.PhoneNumber), "Bunday telefon raqam bilan foydalanuvchi mavjud!");
+
             User user = new User() 
             {
                 CreatedAt= DateTime.UtcNow, 

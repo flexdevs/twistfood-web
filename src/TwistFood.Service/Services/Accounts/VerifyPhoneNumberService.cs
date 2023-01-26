@@ -9,7 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using TwistFood.DataAccess.Interfaces;
 using TwistFood.Domain.Exceptions;
+using TwistFood.Service.Common.Exceptions;
 using TwistFood.Service.Dtos;
+using TwistFood.Service.Dtos.Account;
 using TwistFood.Service.Dtos.Accounts;
 using TwistFood.Service.Interfaces;
 using TwistFood.Service.Interfaces.Accounts;
@@ -31,7 +33,7 @@ namespace TwistFood.Service.Services.Accounts
         public async Task<bool> SendCodeAsync(SendToPhoneNumberDto sendToPhoneNumberDto)
         {
             var user = await _context.Users.FirstOrDefaultAsync(x=> x.PhoneNumber== sendToPhoneNumberDto.PhoneNumber);
-            if (user is null) { throw new StatusCodeException(HttpStatusCode.NotFound, "User not found"); }
+            if (user is null) { throw new ModelErrorException(nameof(sendToPhoneNumberDto.PhoneNumber), "Bunday telefon raqam bilan foydalanuvchi mavjud emas!"); }
             Random r = new Random();
             int code = r.Next(1000, 9999);
 
@@ -47,7 +49,7 @@ namespace TwistFood.Service.Services.Accounts
             IRestResponse response = client.Execute(request);
             if (response.Content.ToString().Substring(11, 5) == "error")
             {
-                throw new StatusCodeException(HttpStatusCode.Forbidden, "We are unable to send messages to this company at this time");
+                throw new  ModelErrorException(nameof(sendToPhoneNumberDto.PhoneNumber), "We are unable to send messages to this company at this time");
             }
             return true;
         }
