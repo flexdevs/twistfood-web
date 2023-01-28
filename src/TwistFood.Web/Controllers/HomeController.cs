@@ -5,8 +5,8 @@ using TwistFood.Web.Models;
 
 namespace TwistFood.Web.Controllers
 {
-	[Authorize]
-	public class HomeController : Controller
+    [Area("admin")]
+    public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
 
