@@ -1,0 +1,197 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <link rel="shortcut icon" href="~/Assets/images/favicon.png" type="">
+
+    <title> TwistFood </title>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
+
+
+    <!--owl slider stylesheet -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+    <!-- nice select  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ==" crossorigin="anonymous" />
+    <!-- font awesome style -->
+    <link href="/css/font-awesome.min.css" rel="stylesheet" />
+
+    <!-- Custom styles for this template -->
+    <link href="~/css/style.css" rel="stylesheet" />
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/fonts/style.css" rel="stylesheet" />
+    <link href="~/css/sidebar.css" rel="stylesheet" />
+
+    <!-- responsive style -->
+    <link href="~/css/responsive.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+         data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <header class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand " asp-controller="Home" asp-action="index" asp-area="admin"><h3>TwistFood</h3></a>
+                <form class="d-flex" >
+                    <input class="form-control" style="width:300px" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-primary mx-2" type="submit">Search</button>
+                </form>
+              <ul class="nav">
+                  <li>
+                      <a asp-area="admin" asp-controller="Home" asp-action="index">Ism</a>
+                  </li>
+              </ul>
+            </div>
+
+        </header>
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <div class="row">
+           
+                <div class="left-sidebar" data-sidebarbg="skin5">
+                    <!-- Sidebar scroll-->
+                    <div class="scroll-sidebar">
+                        <!-- Sidebar navigation-->
+                        <nav class="sidebar-nav">
+                            <ul id="sidebarnav">
+                                <!-- User Profile-->
+                                <li> <a href="#" class="fa fa-product-hunt">DashBorard</a></li>
+
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                       href="pages-profile.html" aria-expanded="false">
+                                        <i class="mdi me-2 mdi-account-check"></i><span class="hide-menu">Profile</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                       href="table-basic.html" aria-expanded="false">
+                                        <i class="mdi me-2 mdi-table"></i><span class="hide-menu">Table</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                       href="icon-material.html" aria-expanded="false">
+                                        <i class="mdi me-2 mdi-emoticon"></i><span class="hide-menu">Icon</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                       href="map-google.html" aria-expanded="false">
+                                        <i class="mdi me-2 mdi-earth"></i><span class="hide-menu">Google Map</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                       href="pages-blank.html" aria-expanded="false">
+                                        <i class="mdi me-2 mdi-book-open-variant"></i><span class="hide-menu">Blank</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                       href="pages-error-404.html" aria-expanded="false">
+                                        <i class="mdi me-2 mdi-help-circle"></i><span class="hide-menu">Error 404</span>
+                                    </a>
+                                </li>
+                                <li class="text-center p-20 upgrade-btn">
+                                    <a href="https://www.wrappixel.com/templates/materialpro/"
+                                       class="btn btn-warning text-white mt-4" target="_blank">
+                                        Upgrade to
+                                        Pro
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </nav>
+                        <!-- End Sidebar navigation -->
+                    </div>
+                    <!-- End Sidebar scroll-->
+                    <div class="sidebar-footer">
+                        <div class="row">
+                            <div class="col-4 link-wrap">
+                                <!-- item-->
+                                <a href="" class="link" data-toggle="tooltip" title="" data-original-title="Settings">
+                                    <i class="ti-settings"></i>
+                                </a>
+                            </div>
+                            <div class="col-4 link-wrap">
+                                <!-- item-->
+                                <a href="" class="link" data-toggle="tooltip" title="" data-original-title="Email">
+                                    <i class="mdi mdi-gmail"></i>
+                                </a>
+                            </div>
+                            <div class="col-4 link-wrap">
+                                <!-- item-->
+                                <a href="" class="link" data-toggle="tooltip" title="" data-original-title="Logout">
+                                    <i class="mdi mdi-power"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            <div >
+
+                    <!-- ============================================================== -->
+                    <!-- Container fluid  -->
+                    <!-- ============================================================== -->
+                    <div style="background:black;">
+                        @RenderBody()
+                    </div>
+                    <!-- ============================================================== -->
+                    <!-- End Container fluid  -->
+                    <!-- ============================================================== -->
+            </div>
+
+        </div>
+
+       
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+      
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- footer -->
+    <!-- ============================================================== -->
+    <footer class="footer text-center" style="margin-left:250px">
+        © 2021 Material Pro Admin by <a href="https://www.wrappixel.com/">wrappixel.com </a>
+    </footer>
+    <!-- ============================================================== -->
+    <!-- End footer -->
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
