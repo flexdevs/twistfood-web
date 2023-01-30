@@ -74,13 +74,15 @@ app.UseMiddleware<TokenRedirectMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapAreaControllerRoute(
+    name: "admin",
+    areaName: "Admin",
+    pattern: "admins/{controller=products}/{action=Index}");
+
 app.MapControllerRoute(
 	name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.MapAreaControllerRoute(
-    name: "admin",
-    areaName: "Admin",
-    pattern: "admins/{controller=Orders}/{action=Index}/{id?}");
+
 
 app.Run();

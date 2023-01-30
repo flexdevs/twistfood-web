@@ -46,22 +46,22 @@ namespace TwistFood.Web.Areas.Admin.Controllers
             var product = await _productService.GetForUpdateAsync(productId);  
             if (product != null)
             {
-                ViewBag.productId = productId;
+               
                 return View(product);   
             }
             return View();
         }
         [HttpPost("update")]
-        public async Task<IActionResult> UpdateAsync(UpdateProductDto updateProductDto)
+        public async Task<IActionResult> UpdateAsync(long Id,UpdateProductDto updateProductDto)
         {
             if (ModelState.IsValid)
             {
-                var result = await _productService.UpdateAsync(updateProductDto.ProductId, updateProductDto);
+                var result = await _productService.UpdateAsync(Id, updateProductDto);
                 if (result)
                 {
                     return RedirectToAction("Index","products",new {area= "admin"});
                 }
-                return await Update(updateProductDto.ProductId);
+                return await Update(Id);
             }
             return View();
         }
