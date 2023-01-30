@@ -18,4 +18,10 @@ public class ProductsController : Controller
         var products = await _productService.GetAllAsync(new PagenationParams(page, _pageSize));
         return View("Index", products);
     }
+
+    [HttpPost]
+    public IActionResult Index(long productId, int amount)
+    {
+        return Content($"{productId} {amount}");
+    }
 }

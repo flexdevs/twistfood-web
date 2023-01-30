@@ -44,7 +44,7 @@ namespace TwistFood.Service.Services.Orders
             if (product == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "Product not found"); }
 
             orderdetail.ProductId = orderDeteilsDto.ProductId;
-            orderdetail.Amount = orderDeteilsDto.Amount;
+            orderdetail.Amount = (orderDeteilsDto.Amount == 0) ? 1 : orderDeteilsDto.Amount;
             orderdetail.Price= orderDeteilsDto.Price;
             order.TotalSum += orderdetail.Price;
 
