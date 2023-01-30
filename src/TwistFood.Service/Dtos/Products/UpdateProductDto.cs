@@ -12,6 +12,7 @@ namespace TwistFood.Service.Dtos.Products
 {
     public class UpdateProductDto
     {
+        public long ProductId { get; set; }
         public long? CategoryId { get; set; }
         public string? ProductName { get; set; }
 
