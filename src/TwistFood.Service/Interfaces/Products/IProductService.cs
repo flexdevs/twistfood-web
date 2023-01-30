@@ -20,6 +20,7 @@ namespace TwistFood.Service.Interfaces.Products
 
         public Task<ProductViewModel> GetAsync(long id);
 
+        public  Task<UpdateProductDto> GetForUpdateAsync(long id);
         public Task<bool> DeleteAsync(long id);
 
         public Task<bool> UpdateAsync(long id, UpdateProductDto updateProductDto);

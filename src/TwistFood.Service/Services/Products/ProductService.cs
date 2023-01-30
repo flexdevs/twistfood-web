@@ -158,6 +158,25 @@ namespace TwistFood.Service.Services.Products
             }
             else throw new StatusCodeException(HttpStatusCode.NotFound, "Product not found");
         }
+        public async Task<UpdateProductDto> GetForUpdateAsync(long id)
+        {
+            var product = await _unitOfWork.Products.FindByIdAsync(id);
+            if (product is not null)
+            {
+                UpdateProductDto productViewModel = new UpdateProductDto()
+                {
+                    ProductId = product.Id,
+                    CategoryId= product.CategoryId,
+                    ProductName = product.ProductName,
+                    ProductDescription = product.ProductDescription,
+                    Price = product.Price
+                    
+                };
+
+                return productViewModel;
+            }
+            else throw new StatusCodeException(HttpStatusCode.NotFound, "Product not found");
+        }
 
         public async Task<bool> UpdateAsync(long id, UpdateProductDto updateProductDto)
         {
