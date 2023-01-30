@@ -18,13 +18,14 @@
     <!-- nice select  -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ==" crossorigin="anonymous" />
     <!-- font awesome style -->
-    <link href="/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Custom styles for this template -->
     <link href="~/css/style.css" rel="stylesheet" />
     <link href="~/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/fonts/style.css" rel="stylesheet" />
     <link href="~/css/sidebar.css" rel="stylesheet" />
+    <link href="css/theme.css" rel="stylesheet" >
 
     <!-- responsive style -->
     <link href="~/css/responsive.css" rel="stylesheet" />
@@ -47,14 +48,30 @@
         <!-- ============================================================== -->
         <header class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand " asp-controller="Home" asp-action="index" asp-area="admin"><h3>TwistFood</h3></a>
+                <a class="navbar-brand " asp-controller="Home" asp-action="index" asp-area="admin"><h3 style="color:white">TwistFood</h3></a>
+                <ul class="nav d-flex">
+                    <!-- User Profile-->
+                    <li class="mx-3">
+                        <a class="btn btn-secondary" aria-current="page" asp-area="admin" asp-controller="orders" asp-action="index">Orders</a>
+                    </li>
+                    <li class="mx-3">
+                        <a class="btn btn-secondary" aria-current="page" asp-controller="home" asp-action="index">Categories</a>
+                    </li>
+                    <li class="mx-3">
+                        <a class="btn btn-secondary" aria-current="page" asp-area="admin" asp-controller="products" asp-action="index">Products</a>
+                    </li>
+                    <li class="mx-3 ">
+                        <a class="btn btn-secondary"  asp-controller="home" asp-action="index">Employees</a>
+                    </li>
+                </ul>
                 <form class="d-flex" >
-                    <input class="form-control" style="width:300px" type="search" placeholder="Search" aria-label="Search">
+                    <input class="form-control" style="width:250px" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-primary mx-2" type="submit">Search</button>
                 </form>
+                
               <ul class="nav">
                   <li>
-                      <a asp-area="admin" asp-controller="Home" asp-action="index">Ism</a>
+                        <a class="btn btn-secondary" asp-area="admin" asp-controller="Home" asp-action="index">Ism</a>
                   </li>
               </ul>
             </div>
@@ -64,110 +81,21 @@
         <!-- End Topbar header -->
         <!-- ============================================================== -->
         <!-- ============================================================== -->
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-        <div class="row">
-           
-                <div class="left-sidebar" data-sidebarbg="skin5">
-                    <!-- Sidebar scroll-->
-                    <div class="scroll-sidebar">
-                        <!-- Sidebar navigation-->
-                        <nav class="sidebar-nav">
-                            <ul id="sidebarnav">
-                                <!-- User Profile-->
-                                <li> <a href="#" class="fa fa-product-hunt">DashBorard</a></li>
-
-                                <li class="sidebar-item">
-                                    <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                       href="pages-profile.html" aria-expanded="false">
-                                        <i class="mdi me-2 mdi-account-check"></i><span class="hide-menu">Profile</span>
-                                    </a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                       href="table-basic.html" aria-expanded="false">
-                                        <i class="mdi me-2 mdi-table"></i><span class="hide-menu">Table</span>
-                                    </a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                       href="icon-material.html" aria-expanded="false">
-                                        <i class="mdi me-2 mdi-emoticon"></i><span class="hide-menu">Icon</span>
-                                    </a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                       href="map-google.html" aria-expanded="false">
-                                        <i class="mdi me-2 mdi-earth"></i><span class="hide-menu">Google Map</span>
-                                    </a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                       href="pages-blank.html" aria-expanded="false">
-                                        <i class="mdi me-2 mdi-book-open-variant"></i><span class="hide-menu">Blank</span>
-                                    </a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                       href="pages-error-404.html" aria-expanded="false">
-                                        <i class="mdi me-2 mdi-help-circle"></i><span class="hide-menu">Error 404</span>
-                                    </a>
-                                </li>
-                                <li class="text-center p-20 upgrade-btn">
-                                    <a href="https://www.wrappixel.com/templates/materialpro/"
-                                       class="btn btn-warning text-white mt-4" target="_blank">
-                                        Upgrade to
-                                        Pro
-                                    </a>
-                                </li>
-                            </ul>
-
-                        </nav>
-                        <!-- End Sidebar navigation -->
-                    </div>
-                    <!-- End Sidebar scroll-->
-                    <div class="sidebar-footer">
-                        <div class="row">
-                            <div class="col-4 link-wrap">
-                                <!-- item-->
-                                <a href="" class="link" data-toggle="tooltip" title="" data-original-title="Settings">
-                                    <i class="ti-settings"></i>
-                                </a>
-                            </div>
-                            <div class="col-4 link-wrap">
-                                <!-- item-->
-                                <a href="" class="link" data-toggle="tooltip" title="" data-original-title="Email">
-                                    <i class="mdi mdi-gmail"></i>
-                                </a>
-                            </div>
-                            <div class="col-4 link-wrap">
-                                <!-- item-->
-                                <a href="" class="link" data-toggle="tooltip" title="" data-original-title="Logout">
-                                    <i class="mdi mdi-power"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            
+       
             <div >
 
                     <!-- ============================================================== -->
                     <!-- Container fluid  -->
                     <!-- ============================================================== -->
-                    <div style="background:black;">
+                    <div >
                         @RenderBody()
                     </div>
                     <!-- ============================================================== -->
                     <!-- End Container fluid  -->
                     <!-- ============================================================== -->
             </div>
-
-        </div>
-
+     
        
-        <!-- ============================================================== -->
-        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
         <!-- ============================================================== -->
       

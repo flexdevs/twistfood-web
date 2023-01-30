@@ -1,0 +1,59 @@
+﻿@using TwistFood.Service.ViewModels.Products;
+
+@model List<ProductViewModel>
+
+<div class="col-md-12">
+    <!-- DATA TABLE -->
+    <h3 class="title-5 text-center mt-2">Products</h3>
+    <div class="table-data__tool">
+        <div class="text-right mb-2">
+            <button class="au-btn" style="background:lightgreen;">
+                <i class="zmdi zmdi-plus"></i>add item
+            </button>
+           
+        </div>
+    </div>
+    <div class="table-responsive table-responsive-data2">
+        <table class="table table-data2">
+            <thead>
+                <tr>
+                    <th>image</th>
+                    <th>name</th>
+                    <th>description</th>
+                    <th>price</th>
+                    <th>controls</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model)
+                {
+                    <tr class="tr-shadow">
+
+                        <td>
+                            <img width="25" height="25" src="~/@product.ImagePath"/>
+                        </td>
+                        <td class="name">@product.ProductName</td>
+                        <td class="desc">@product.ProductDescription</td>
+                        
+                        <td>@product.Price sum</td>
+                        <td>
+                            <div class="table-data-feature">
+                                
+                                <button class="item" style="background:aqua" data-toggle="tooltip" data-placement="top" title="Edit">
+                                    <i  class="fa fa-edit "></i>
+                                </button>
+                                <button class="item" style="background:red" data-toggle="tooltip" data-placement="top" title="Delete">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                             
+                            </div>
+                        </td>
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+    <!-- END DATA TABLE -->
+</div>
