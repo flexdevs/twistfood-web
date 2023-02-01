@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using TwistFood.Domain.Entities.Products;
 using TwistFood.Service.Common.Utils;
 using TwistFood.Service.Interfaces.Products;
+using TwistFood.Service.ViewModels.Products;
 
 namespace TwistFood.Web.Controllers;
 
@@ -19,9 +22,9 @@ public class ProductsController : Controller
         return View("Index", products);
     }
 
-    [HttpPost]
-    public IActionResult Index(long productId, int amount)
+    [HttpGet("ProductId")]
+    public async Task<IActionResult> test(long ProductId) 
     {
-        return Content($"{productId} {amount}");
+        return await Index(1);
     }
 }

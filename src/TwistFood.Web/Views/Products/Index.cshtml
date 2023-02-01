@@ -1,6 +1,10 @@
 ﻿@using TwistFood.Service.ViewModels.Products;
 @model List<ProductViewModel>
 
+@{
+    ViewData["Title"] = "Products Page";
+}
+
 <!-- food section -->
 
 <section class="food_section layout_padding-bottom">
@@ -26,10 +30,9 @@
                     {
                         <div class="col-sm-6 col-lg-4 all pizza">
                             <div class="box">
-                            <form asp-area="" asp-controller="products" asp-action="index" asp-route-productId="@product.Id" method="post">
                                 <div>
                                     <div class="img-box">
-                                        <img class="img-fluid" src="@product.ImagePath" alt="">
+                                        <img class="img-fluid" src="~/@product.ImagePath" alt="">
                                     </div>
                                     <div class="detail-box">
                                         <h5>
@@ -42,8 +45,7 @@
                                             <h6>
                                                 @product.Price so'm
                                             </h6>
-                                                <input id="amount" type="number" value="1">
-                                            <button type="submit" class="btn btn-icon btn-warning rounded-3">
+                                            <a asp-area="" asp-controller="products" asp-action="test" asp-route-ProductId="@product.Id" type="submit" class="btn btn-icon btn-warning rounded-3">
                                                 <span class="svg-icon svg-icon-1">
                                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -53,11 +55,10 @@
                                                         </g>
                                                     </svg>
                                                 </span>
-                                            </button>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
-                                </form>
                             </div>
                         </div>
                     }
