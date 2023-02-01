@@ -1,0 +1,66 @@
+﻿@using TwistFood.Service.ViewModels.Orders;
+@model List<OrderViewModel>
+
+<div class="container text-center mt-3">
+    <div class="row">
+        <div class="col">
+            <h3 class="text-center">Amaldagi buyurtmalarim</h3>
+            <table class="table table-hover table-striped gy-7 gs-7">
+                <thead>
+                    <tr class="fw-bold fs-6 text-gray-800 border-bottom border-gray-200">
+                        <th>OrderId</th>
+                        <th>Order Details</th>
+                        <th>Payment Type</th>
+                        <th>Total Sum</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach(var order in Model)
+                        {
+                            if (order.Status != "Successful" && order.Status != "Cancelled" && order.Status != "New")
+                                {
+                                <tr>
+                                    <td>#@order.Id</td>
+                                    <td>@order.OrderDetails</td>
+                                    <td>@order.paymentType</td>
+                                    <td>@order.TotalSum so'm</td>
+                                    <td>@order.Status</td>
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col">
+            <h3 class="text-center">Barcha buyurtmalarim</h3>
+            <table class="table table-hover table-striped gy-7 gs-7">
+                <thead>
+                    <tr class="fw-bold fs-6 text-gray-800 border-bottom border-gray-200">
+                        <th>OrderId</th>
+                        <th>Order Details</th>
+                        <th>Payment Type</th>
+                        <th>Total Sum</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach (var order in Model)
+                        {
+                            <tr>
+                                <td>#@order.Id</td>
+                                <td>@order.OrderDetails</td>
+                                <td>@order.paymentType</td>
+                                <td>@order.TotalSum so'm</td>
+                                <td>@order.Status</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
