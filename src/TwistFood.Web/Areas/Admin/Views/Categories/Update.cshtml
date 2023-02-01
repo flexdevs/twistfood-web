@@ -1,0 +1,25 @@
+﻿@using TwistFood.Service.ViewModels.Categories;
+@model CategoryViewModels
+
+<div class="d-flex justify-content-center" style="margin-top:150px; margin-bottom:20px">
+
+    <div class="card px-4 pt-4 pb-4 pe-4" style="width:500px;">
+        <div class="card-body">
+            <h3>Update Product</h3>
+            <form asp-action="Update" asp-area="admin" asp-controller="categories" asp-route-Id="@Model.Id" method="post" >
+                <div class="mt-3">
+                    <label asp-for="CategoryName" class="control-label"></label>
+                    <input type="text" asp-for=CategoryName class="form-control">
+                    <span asp-validation-for="CategoryName" class="text-danger"></span>
+                </div>
+              
+                <div class="mt-4 mb-2 d-flex justify-content-end">
+                    <input type="submit" class="btn btn-success me-2" value="Save">
+                    <a asp-area="admin" asp-controller="categories" asp-action="index" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</div>

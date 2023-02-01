@@ -46,7 +46,10 @@ builder.Services.AddScoped<IPaginatorService, PaginatorService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
 builder.Services.AddScoped<IVerifyPhoneNumberService, VerifyPhoneNumberService>();
-builder.Services.AddScoped<IOrderService, OrderService>();	
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IOrderDeteilsService, OrderDeteilService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();	
+
 
 
 var app = builder.Build();
