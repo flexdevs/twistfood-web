@@ -30,7 +30,7 @@ using TwistFood.Service.Dtos.Accounts;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddWeb(builder.Configuration);
-
+builder.Services.AddMemoryCache();
 builder.Services.AddHttpContextAccessor();
 
 string connectionString = builder.Configuration.GetConnectionString("Database");
@@ -46,7 +46,8 @@ builder.Services.AddScoped<IPaginatorService, PaginatorService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
 builder.Services.AddScoped<IVerifyPhoneNumberService, VerifyPhoneNumberService>();
-builder.Services.AddScoped<IOrderService, OrderService>();	
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IOrderDeteilsService, OrderDeteilService>();
 
 
 var app = builder.Build();
