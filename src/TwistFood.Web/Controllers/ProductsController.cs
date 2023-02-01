@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using TwistFood.Domain.Entities.Products;
 using TwistFood.Service.Common.Utils;
 using TwistFood.Service.Interfaces.Products;
+using TwistFood.Service.ViewModels.Products;
 
 namespace TwistFood.Web.Controllers;
 
@@ -17,5 +20,11 @@ public class ProductsController : Controller
     {
         var products = await _productService.GetAllAsync(new PagenationParams(page, _pageSize));
         return View("Index", products);
+    }
+
+    [HttpGet("ProductId")]
+    public async Task<IActionResult> test(long ProductId) 
+    {
+        return await Index(1);
     }
 }
