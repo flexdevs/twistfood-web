@@ -16,6 +16,7 @@ using TwistFood.Service.Common.Utils;
 using TwistFood.Service.Dtos.Orders;
 using TwistFood.Service.Interfaces.Common;
 using TwistFood.Service.Interfaces.Orders;
+using TwistFood.Service.Services.Common;
 using TwistFood.Service.ViewModels.Orders;
 
 namespace TwistFood.Service.Services.Orders
@@ -24,10 +25,14 @@ namespace TwistFood.Service.Services.Orders
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPaginatorService _paginatorService;
-        public OrderService(IUnitOfWork unitOfWork, IPaginatorService paginatorService)
+        private readonly IIdentityService _identityService;
+
+        public OrderService(IUnitOfWork unitOfWork, IPaginatorService paginatorService,
+                            IIdentityService identityService)
         {
             _unitOfWork = unitOfWork;
             this._paginatorService = paginatorService;
+            _identityService = identityService;
 
         }
 
@@ -84,10 +89,7 @@ namespace TwistFood.Service.Services.Orders
         {
           var order = await _unitOfWork.Orders.FindByIdAsync(id);
             if (order is null) { throw new StatusCodeException(HttpStatusCode.NotFound, "Order not found"); }
-           /* if (HttpContextHelper.IsUser)
-            {
-                if (order.UserId != HttpContextHelper.UserId) { throw new StatusCodeException(HttpStatusCode.Unauthorized, "Unauthorized"); }
-            }*/
+
             OrderWithOrderDetailsViewModel orderDetailsViewModel = new OrderWithOrderDetailsViewModel()
             {
                 Id = order.Id,
@@ -134,7 +136,7 @@ namespace TwistFood.Service.Services.Orders
 
         public async Task<long> OrderCreateAsync(OrderCreateDto dto)
         {
-            var user = await _unitOfWork.Users.FindByIdAsync(HttpContextHelper.UserId);
+            var user = await _unitOfWork.Users.FindByIdAsync(_identityService.Id!.Value);
             if (user == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "User not found"); }
             Location location = new Location() { Latitude = dto.Latitude, Longitude = dto.Longitude }; 
             _unitOfWork.Locations.Add(location);

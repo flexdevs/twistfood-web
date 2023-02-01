@@ -50,13 +50,9 @@ namespace TwistFood.Service.Services.Orders
 
         public async Task<bool> OrderCreateAsync(long OrderId,OrderDeteilsCreateDto orderDeteilsDto)
         {
-            var IsUser = HttpContextHelper.IsUser;
             var order = await _unitOfWork.Orders.FindByIdAsync(OrderId);  
             if (order is null) { throw new StatusCodeException(HttpStatusCode.NotFound, "Order not found"); }
-            //if (IsUser)
-            //{
-            //    if (order.UserId != HttpContextHelper.UserId) { throw new StatusCodeException(HttpStatusCode.Unauthorized, "Unauthorized"); }
-            //}
+
             _unitOfWork.Entry(order).State= EntityState.Detached;   
             OrderDetail orderdetail = new OrderDetail() {OrderId = order.Id };
             
