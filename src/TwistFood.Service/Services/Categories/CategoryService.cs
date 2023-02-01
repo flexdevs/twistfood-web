@@ -13,6 +13,8 @@ using TwistFood.Domain.Entities.Products;
 using TwistFood.Domain.Exceptions;
 using TwistFood.Service.Common.Utils;
 using TwistFood.Service.Dtos;
+using TwistFood.Service.Dtos.Products;
+using TwistFood.Service.Interfaces;
 using TwistFood.Service.Interfaces.Categories;
 using TwistFood.Service.Interfaces.Common;
 using TwistFood.Service.Services.Common;
@@ -90,12 +92,41 @@ namespace TwistFood.Service.Services.Categories
             var res = await _unitOfWork.Categories.FindByIdAsync(id);
             if (res is not null)
             {
+                var products =   _unitOfWork.Products.Where(x => x.CategoryId == res.Id).ToList();
+                foreach(var product in products)
+                {
+                    //_unitOfWork.Entry(product).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+                    product.CategoryId = null;
+                    _unitOfWork.Products.Update(product.Id,product);
+                }
                 _unitOfWork.Categories.Delete(res.Id);
                 var result = await _unitOfWork.SaveChangesAsync();
 
                 return result > 0;
             }
             else throw new StatusCodeException(HttpStatusCode.NotFound, "Category not found");
+        }
+
+        public async Task<bool> UpdateAsync(long Id, CategoryViewModels categoryView)
+        {
+            var res = await _unitOfWork.Categories.FindByIdAsync(Id);
+            if (res is not null)
+            {
+                _unitOfWork.Entry(res).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+                Category category1 = new Category()
+                {
+                    Id = categoryView.Id,
+                    CategoryName = categoryView.CategoryName
+
+                };
+
+                
+
+                _unitOfWork.Categories.Update(Id, category1);
+                var result = await _unitOfWork.SaveChangesAsync();
+                return result > 0;
+            }
+            else throw new StatusCodeException(HttpStatusCode.NotFound, "category not found");
         }
     }
 }

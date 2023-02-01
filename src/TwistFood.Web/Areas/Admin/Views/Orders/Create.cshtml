@@ -1,0 +1,40 @@
+﻿@using TwistFood.Service.ViewModels.Products;
+@model Tuple<long, List<ProductViewModel>>
+
+<div class="col-md-12 mx-4 me-4 mt-4 mb-4 pt-2 pb-2 pe-4 px-4">
+    <h3 class="title-5 text-center mt-2">Products</h3>
+   
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>image</th>
+                <th>name</th>
+                <th>description</th>
+                <th>price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model.Item2)
+            {
+                
+                <tr class="tr-shadow">
+
+                    <td>
+                        <img width="25" height="25" src="~/@product.ImagePath" />
+                    </td>
+                   
+                    <td class="name">
+                        <a asp-area="admin" asp-controller="orders" asp-action="CreateOrder" asp-route-OrderId="@Model.Item1" asp-route-productId="@product.Id">
+                            @product.ProductName
+                        </a>
+                        </td>
+                    <td class="desc">@product.ProductDescription</td>
+
+                    <td>@product.Price sum</td>
+                </tr>
+            }
+
+
+        </tbody>
+    </table>
+</div>

@@ -20,5 +20,7 @@ namespace TwistFood.Service.Interfaces.Categories
         public Task<CategoryViewModels> GetAsync(long id);
 
         public Task<bool> DeleteAsync(long id);
+
+        public Task<bool> UpdateAsync(long Id, CategoryViewModels categoryView);
     }
 }
