@@ -3,26 +3,18 @@
 
 <section class="food_section layout_padding-bottom">
     <div class="container">
-        <div class="heading_container heading_center">
-            <h2>
-                Menu
-            </h2>
+        <div class="heading_container heading_center mt-3">
+            <h3>
+                Buyurtmangizda @Model.OrderDetails.Count ta mahsulot bor
+            </h3>
         </div>
-
-        @*<ul class="filters_menu">
-        <li class="active" data-filter="*">Hammasi</li>
-        <li data-filter=".burger">Burgerlar</li>
-        <li data-filter=".pizza">Sendvichlar</li>
-        <li data-filter=".pasta">Lavashlar</li>
-        <li data-filter=".fries">Ichimliklar</li>
-        </ul>*@
 
         <div class="filters-content">
             <div class="row grid">
                 @{
                     foreach (var product in Model.OrderDetails)
                     {
-                        <div class="col-sm-6 col-lg-4 all pizza">
+                        <div class="col-sm-6 col-lg-4">
                             <div class="box">
                                 <div>
                                     <div class="img-box">
@@ -41,7 +33,7 @@
                                                 <input class="quantity" min="0" name="quantity" value="1" type="number">
                                                 <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
                                             </div>
-                                            <a asp-area="" asp-controller="products" asp-action="delete" asp-route-productId="@product.Id" class="btn btn-danger">
+                                            <a asp-area="" asp-controller="products" asp-action="delete" asp-route-productId="@product.Id" class="btn" style="background: #f70303;">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
                                                     <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"/>
                                                 </svg>
@@ -55,5 +47,17 @@
                 }
             </div>
         </div>
+        <div class="heading_container heading_center  mt-5">
+            <h4>
+                Umumiy: @Model.TotalSum so'm
+            </h4>
+        </div>
+        <div class="d-grid gap-2 col-3 mx-auto mt-3">
+            <button type="button" class="btn btn-primary btn-block" asp-controller="products" asp-action="index">Buyurtmani davom ettirish</button>
+        </div>
+        <div class="d-grid gap-2 col-3 mx-auto mt-3">
+            <button type="button" class="btn btn-success btn-block">Buyurtmani rasmiylashtirish</button>
+        </div>
+        
     </div>
 </section>
