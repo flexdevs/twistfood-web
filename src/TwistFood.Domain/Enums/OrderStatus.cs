@@ -2,12 +2,13 @@
 {
     public enum OrderStatus
     {
-        InQueue = 0,
-    Confirmed = 1,
-    OnProcess = 2,
-    OnDelivery = 3,
-    InPoint = 4,
-    Successful = 5,
-    Cancelled = -1,
+        New = 0,
+        InQueue = 1,
+        Confirmed = 2,
+        OnProcess = 3,
+        OnDelivery = 4,
+        InPoint = 6,
+        Successful = 7,
+        Cancelled = -1,
     }
 }
