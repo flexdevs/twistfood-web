@@ -89,7 +89,7 @@ namespace TwistFood.Service.Services.Orders
         {
           var order = await _unitOfWork.Orders.FindByIdAsync(id);
             if (order is null) { throw new StatusCodeException(HttpStatusCode.NotFound, "Order not found"); }
-            
+
             OrderWithOrderDetailsViewModel orderDetailsViewModel = new OrderWithOrderDetailsViewModel()
             {
                 Id = order.Id,
@@ -103,18 +103,27 @@ namespace TwistFood.Service.Services.Orders
 
             orderDetailsViewModel.UserPhoneNumber = user!.PhoneNumber;
 
-            List<OrderDetailViewModel> list = new List<OrderDetailViewModel>();     
+            List<OrderDetailForAdminViewModel> list = new List<OrderDetailForAdminViewModel>();     
             
             var orderDetails =  _unitOfWork.OrderDetails.GetAll(id).AsNoTracking().ToList();
             foreach (var orderDetail in orderDetails)
             {
-                OrderDetailViewModel detailsViewModel = new OrderDetailViewModel()
+
+                OrderDetailForAdminViewModel detailsViewModel = new OrderDetailForAdminViewModel()
                 {
                     Id = orderDetail.Id,
+                    Amount = orderDetail.Amount,
+                    
                     Price = orderDetail.Price,
                 };
+                var product = await _unitOfWork.Products.FindByIdAsync(orderDetail.ProductId);
+
+
                 
-                detailsViewModel.ProductName = (await _unitOfWork.Products.FindByIdAsync(orderDetail.ProductId))!.ProductName;
+                detailsViewModel.ProductName = product!.ProductName;
+                detailsViewModel.ProductImagePath = product.ImagePath;
+                detailsViewModel.ProductId = product.Id;
+
                 
                 list.Add(detailsViewModel);
             }
@@ -184,5 +193,7 @@ namespace TwistFood.Service.Services.Orders
             return true;
 
         }
+
+     
     }
 }
