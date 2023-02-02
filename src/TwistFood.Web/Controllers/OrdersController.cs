@@ -59,6 +59,8 @@ namespace TwistFood.Web.Controllers
                 };
                 await _orderService.OrderUpdateAsync(orderUpdateDto);
 
+                _cache.Remove(_identityService.Id!.Value);
+
                 return RedirectToAction("index", "products", new { area = "" });
             }
             else
