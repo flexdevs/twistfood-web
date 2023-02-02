@@ -39,5 +39,14 @@ public class IdentityService : IIdentityService
             var result = _accessor.HttpContext!.User.FindFirst("PhoneNumber");
             return (result is null) ? String.Empty : result.Value;
         }
+
+    }
+    public string Role
+    {
+        get
+        {
+            var result = _accessor.HttpContext!.User.FindFirst("Role");
+            return (result is null) ? String.Empty : result.Value;
+        }
     }
 }

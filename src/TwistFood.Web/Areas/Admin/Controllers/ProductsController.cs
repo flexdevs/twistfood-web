@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TwistFood.Service.Common.Utils;
 using TwistFood.Service.Dtos.Products;
 using TwistFood.Service.Interfaces.Products;
 
 namespace TwistFood.Web.Areas.Admin.Controllers
 {
+    [Authorize(Roles ="head")]
     [Area("admin")]
     public class ProductsController : Controller
     {

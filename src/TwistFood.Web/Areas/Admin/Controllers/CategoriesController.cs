@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using TwistFood.Domain.Entities.Categories;
 using TwistFood.Service.Common.Utils;
 using TwistFood.Service.Dtos;
@@ -8,6 +10,8 @@ using TwistFood.Service.ViewModels.Categories;
 
 namespace TwistFood.Web.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "head")]
+
     [Area("admin")]
     [Route("admins/categories")]
     public class CategoriesController : Controller

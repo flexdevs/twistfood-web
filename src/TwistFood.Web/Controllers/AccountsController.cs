@@ -41,6 +41,7 @@ namespace TwistFood.Web.Controllers
                     if (res)
                     {
                         TempData["tel"] = accountLoginDto.PhoneNumber;
+
                         return RedirectToAction("VerifyPhoneNumber", "verify", new { area = "" });
                     }
                     else

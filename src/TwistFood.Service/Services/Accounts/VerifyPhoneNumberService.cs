@@ -22,13 +22,13 @@ namespace TwistFood.Service.Services.Accounts
     {
         private readonly IMemoryCache _cache;
         private readonly IUnitOfWork _context;
-        private readonly IAuthManager _authManager;
+        private readonly IAccountService _accountService;
 
-        public VerifyPhoneNumberService(IMemoryCache cache, IUnitOfWork unitOfWork, IAuthManager authManager)
+        public VerifyPhoneNumberService(IMemoryCache cache, IUnitOfWork unitOfWork, IAccountService accountService)
         {
             _cache = cache;
             _context = unitOfWork;
-            _authManager = authManager;
+            _accountService = accountService;
         }
         public async Task<bool> SendCodeAsync(SendToPhoneNumberDto sendToPhoneNumberDto)
         {
@@ -63,10 +63,7 @@ namespace TwistFood.Service.Services.Accounts
 
                 else
                 {
-                    var user = await _context.Users.FirstOrDefaultAsync(x => x.PhoneNumber == verifyPhoneNumberDto.PhoneNumber);
-                    if (user is null) { throw new StatusCodeException(HttpStatusCode.NotFound, "User not found"); }
-
-                    return _authManager.GenerateUserToken(user); 
+                    return await _accountService.AccountLoginAsync(new AccountLoginDto() { PhoneNumber= verifyPhoneNumberDto.PhoneNumber });  
                 }
             }
             else

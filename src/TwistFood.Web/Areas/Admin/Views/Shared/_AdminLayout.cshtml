@@ -43,12 +43,11 @@
                     <input class="form-control" style="width:250px" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-primary mx-2" type="submit">Search</button>
                 </form>
-                
-              <ul class="nav">
-                  <li>
-                        <a class="btn btn-secondary" asp-area="admin" asp-controller="Home" asp-action="index">Ism</a>
-                  </li>
-              </ul>
+                <div >
+                    @await Component.InvokeAsync("IdentityAdmin")
+
+                </div>
+
             </div>
 
         </header>

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using TwistFood.Service.Common.Utils;
 using TwistFood.Service.Dtos;
 using TwistFood.Service.Dtos.Orders;
@@ -10,6 +12,8 @@ using TwistFood.Service.ViewModels.Products;
 
 namespace TwistFood.Web.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "head")]
+
     [Area("admin")]
     [Route("admins/orders")]
     public class OrdersController : Controller
