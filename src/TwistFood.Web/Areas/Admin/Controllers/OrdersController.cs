@@ -109,5 +109,28 @@ namespace TwistFood.Web.Areas.Admin.Controllers
             }
             return View();
         }
+
+        [HttpGet("delete")]
+        public async Task<ViewResult> Delete(long Id)
+        {
+            var order = await _orderService.GetOrderWithOrderDetailsAsync(Id);
+            if (order != null)
+            {
+
+                return View(order);
+            }
+            return View();
+        }
+
+
+        [HttpPost("delete")]
+        public async Task<IActionResult> DeleteAsync(long Id)
+        {
+            var res = await _orderService.DeleteAsync(Id);
+            if (res)
+                return RedirectToAction("Index", "orders", new { area = "admin" });
+            return View();
+        }
+
     }
 }

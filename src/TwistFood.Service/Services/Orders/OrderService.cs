@@ -36,6 +36,17 @@ namespace TwistFood.Service.Services.Orders
 
         }
 
+        public async Task<bool> DeleteAsync(long OrderId)
+        {
+            var order = await _unitOfWork.Orders.FindByIdAsync(OrderId);
+            if (order == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "Orders not found"); }
+            _unitOfWork.Orders.Delete(OrderId);
+
+            var res = await _unitOfWork.SaveChangesAsync();
+
+            return res > 0;
+        }
+
         public async Task<IEnumerable<OrderViewModel>> GetAllAsync(PagenationParams @params)
         {
             var query = _unitOfWork.Orders.GetAll()

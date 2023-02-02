@@ -1,0 +1,21 @@
+﻿@using TwistFood.Service.ViewModels.Orders;
+@model OrderWithOrderDetailsViewModel
+<div class="d-flex justify-content-center" style="margin-top:250px">
+    <div class="card px-4 pt-4 pb-4 pe-4">
+        <form asp-action="delete" asp-controller="orders" asp-area="admin" asp-route-Id="@Model.Id" method="post">
+            <div class="card-body">
+            <h3>
+                Siz haqaqitdan ham @Model.UserPhoneNumber 
+                buyurtmasini bekor qilmoqchimisiz?
+            </h3>
+            <div class="mt-4 mb-2 d-flex justify-content-end">
+                <input type="submit" class="btn btn-danger me-2"  value="Delete">
+                    <a asp-area="admin" asp-controller="orders" asp-action="index" class="btn btn-secondary">Cancel</a>
+                </div>
+        </div>    
+
+        </form>
+
+    </div>
+
+</div>

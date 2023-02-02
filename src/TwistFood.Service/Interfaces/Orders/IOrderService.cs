@@ -17,5 +17,6 @@ namespace TwistFood.Service.Interfaces.Orders
         public Task<bool> OrderUpdateAsync(OrderUpdateDto dto);
         public Task<IEnumerable<OrderViewModel>> GetAllAsync(PagenationParams @params);
         public Task<OrderWithOrderDetailsViewModel> GetOrderWithOrderDetailsAsync(long OrderId);
+        public Task<bool> DeleteAsync(long OrderId);
     }
 }
