@@ -49,6 +49,7 @@ builder.Services.AddScoped<IVerifyPhoneNumberService, VerifyPhoneNumberService>(
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IOrderDeteilsService, OrderDeteilService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();	
+builder.Services.AddScoped<IDiscountService, DiscountService>();
 
 
 var app = builder.Build();

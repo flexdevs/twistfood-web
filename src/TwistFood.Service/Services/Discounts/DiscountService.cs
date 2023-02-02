@@ -90,7 +90,7 @@ namespace TwistFood.Service.Services.Discounts
                     StartTime = discount.StartTime.ToShortDateString(),
                     EndTime= discount.EndTime.ToShortDateString(),
                     Price = discount.Price,
-                    ImagePath = "http://twistfood.uz:5055/" + discount.ImagePath,
+                    ImagePath = discount.ImagePath,
                 };
 
                 result.Add(discountViewModel);
