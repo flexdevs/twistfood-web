@@ -12,4 +12,5 @@ public interface IIdentityService
     public string FullName { get; }
 
     public string PhoneNumber { get; }
+    public string Role { get; }
 }

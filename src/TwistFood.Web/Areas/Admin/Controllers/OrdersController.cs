@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using TwistFood.Service.Common.Utils;
 using TwistFood.Service.Dtos;
 using TwistFood.Service.Dtos.Orders;
@@ -10,6 +12,8 @@ using TwistFood.Service.ViewModels.Products;
 
 namespace TwistFood.Web.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "head")]
+
     [Area("admin")]
     [Route("admins/orders")]
     public class OrdersController : Controller
@@ -105,5 +109,28 @@ namespace TwistFood.Web.Areas.Admin.Controllers
             }
             return View();
         }
+
+        [HttpGet("delete")]
+        public async Task<ViewResult> Delete(long Id)
+        {
+            var order = await _orderService.GetOrderWithOrderDetailsAsync(Id);
+            if (order != null)
+            {
+
+                return View(order);
+            }
+            return View();
+        }
+
+
+        [HttpPost("delete")]
+        public async Task<IActionResult> DeleteAsync(long Id)
+        {
+            var res = await _orderService.DeleteAsync(Id);
+            if (res)
+                return RedirectToAction("Index", "orders", new { area = "admin" });
+            return View();
+        }
+
     }
 }

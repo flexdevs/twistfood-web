@@ -46,10 +46,14 @@ namespace TwistFood.Service.Services.Accounts
 
         public async Task<string> AccountLoginAsync(AccountLoginDto accountLoginDto)
         {
+            var admin = await _unitOfWork.Admins.FirstOrDefaultAsync(x=>x.PhoneNumber== accountLoginDto.PhoneNumber);   
             var user = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.PhoneNumber == accountLoginDto.PhoneNumber);
-            if (user is null) throw new ModelErrorException(nameof(accountLoginDto.PhoneNumber), "Bunday telefon raqam bilan foydalanuvchi mavjud emas!");
-            
-            string token = _authManager.GenerateUserToken(user);
+            if (user is null && admin is null) throw new ModelErrorException(nameof(accountLoginDto.PhoneNumber), "Bunday telefon raqam bilan foydalanuvchi mavjud emas!");
+
+            string token="";
+            if(user is not null) token = _authManager.GenerateUserToken(user);
+            if (admin is not null) { token = _authManager.GenerateAdminToken(admin); }
+
             return token;
         }
 
