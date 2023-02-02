@@ -49,7 +49,7 @@ namespace TwistFood.Service.Services.Orders
 
         public async Task<IEnumerable<OrderViewModel>> GetAllAsync(PagenationParams @params)
         {
-            var query = _unitOfWork.Orders.GetAll()
+            var query = _unitOfWork.Orders.GetAll().Where(x => x.Status != OrderStatus.New)
           .OrderByDescending(x => x.Id);
 
             var res = await _paginatorService.ToPageAsync(query,
