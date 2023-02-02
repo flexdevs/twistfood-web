@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using TwistFood.Service.Common.Utils;
+using TwistFood.Service.Interfaces.Discounts;
 using TwistFood.Web.Models;
 
 namespace TwistFood.Web.Controllers
@@ -9,16 +11,21 @@ namespace TwistFood.Web.Controllers
 	public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
+        private readonly IDiscountService _discountService;
+        private readonly int _pageSize = 30;
 
-		public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IDiscountService discountService)
 		{
 			_logger = logger;
-		}
+			this._discountService = discountService;
 
-		public IActionResult Index()
-		{
-			return View();
-		}
+        }
+
+        public async Task<ViewResult> Index(int page = 1)
+        {
+            var discounts = await _discountService.GetAllAsync(new PagenationParams(page, _pageSize));
+            return View("Index", discounts);
+        }
 
 		public IActionResult Privacy()
 		{

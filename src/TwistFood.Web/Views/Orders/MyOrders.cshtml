@@ -50,13 +50,16 @@
                     @{
                         foreach (var order in Model)
                         {
-                            <tr>
-                                <td>#@order.Id</td>
-                                <td>@order.OrderDetails</td>
-                                <td>@order.paymentType</td>
-                                <td>@order.TotalSum so'm</td>
-                                <td>@order.Status</td>
-                            </tr>
+                            if (order.Status == "Successful" && order.Status == "Cancelled")
+                            {
+                                <tr>
+                                    <td>#@order.Id</td>
+                                    <td>@order.OrderDetails</td>
+                                    <td>@order.paymentType</td>
+                                    <td>@order.TotalSum so'm</td>
+                                    <td>@order.Status</td>
+                                </tr>
+                            }
                         }
                     }
                 </tbody>

@@ -1,8 +1,56 @@
-﻿@{
+﻿@using TwistFood.Service.ViewModels.Discounts;
+@model List<DiscountViewModel>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div id="carouselExampleDark" class="carousel carousel-dark slide w-75 mt-3 mb-3" data-ride="carousel">
+    <h3 class="text-center">Chegirmali Combolar</h3>
+    <ol class="carousel-indicators">
+        <li data-target="#carouselExampleDark" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleDark" data-slide-to="1"></li>
+        <li data-target="#carouselExampleDark" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="carousel-item active" data-interval="5000">
+                    <div style="margin-top:30px">
+                        <h3 class="text-center">@Model[0].StartTime dan @Model[0].EndTime gacha</h3>
+                    </div>
+                    <img src="~/@Model[0].ImagePath" class="d-block w-100" alt="..." style="height:600px;">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h4>@Model[0].DiscountName</h4>
+                        <p style="font-weight:bold">@Model[0].DiscountDescription</p>
+                        <h3>@Model[0].Price so'm</h3>
+                    </div>
+        </div>
+        <div class="carousel-item" data-interval="5000">
+            <div style="margin-top:30px">
+                <h3 class="text-center">@Model[0].StartTime dan @Model[0].EndTime gacha</h3>
+            </div>
+            <img src="~/@Model[1].ImagePath" class="d-block w-100" alt="..." style="height:600px;">
+            <div class="carousel-caption d-none d-md-block">
+                <h4>@Model[1].DiscountName</h4>
+                <p style="font-weight:bold">@Model[1].DiscountDescription</p>
+                <h3>@Model[1].Price so'm</h3>
+            </div>
+        </div>
+        <div class="carousel-item" data-interval="5000">
+                <div style="margin-top:30px">
+                    <h3 class="text-center">@Model[0].StartTime dan @Model[0].EndTime gacha</h3>
+                </div>
+                <img src="~/@Model[2].ImagePath" class="d-block w-100" alt="..." style="height:600px;">
+                    <div class="carousel-caption d-none d-md-block">
+                    <h4>@Model[2].DiscountName</h4>
+                    <p style="font-weight:bold">@Model[2].DiscountDescription</p>
+                    <h3>@Model[2].Price  so'm</h3>
+                </div>
+        </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleDark" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleDark" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    </a>
 </div>
