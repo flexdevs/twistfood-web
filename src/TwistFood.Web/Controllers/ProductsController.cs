@@ -18,7 +18,7 @@ public class ProductsController : Controller
     private readonly IIdentityService _identityService;
     private readonly IOrderDeteilsService _orderDeteilService;
     private readonly IDiscountService _discountService;
-    private readonly int _pageSize = 5;
+    private readonly int _pageSize = 3;
     public ProductsController(IProductService productService, IOrderService orderService,
                               IMemoryCache cache, IIdentityService identityService,
                               IOrderDeteilsService orderDeteilService, IDiscountService discountService)
