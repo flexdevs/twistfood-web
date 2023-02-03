@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Drawing;
-using TwistFood.DataAccess.Configurations;
 using TwistFood.Domain.Common;
 using TwistFood.Domain.Entities.Categories;
 using TwistFood.Domain.Entities.Discounts;
@@ -34,7 +32,7 @@ namespace TwistFood.Api.DbContexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            base.OnConfiguring(optionsBuilder); 
+            base.OnConfiguring(optionsBuilder);
         }
     }
 }

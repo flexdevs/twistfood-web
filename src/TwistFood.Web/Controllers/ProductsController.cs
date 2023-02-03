@@ -1,17 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Caching.Memory;
-using NuGet.Protocol.Core.Types;
-using TwistFood.Domain.Entities.Products;
 using TwistFood.Service.Common.Utils;
 using TwistFood.Service.Dtos.Orders;
 using TwistFood.Service.Interfaces.Common;
 using TwistFood.Service.Interfaces.Discounts;
 using TwistFood.Service.Interfaces.Orders;
 using TwistFood.Service.Interfaces.Products;
-using TwistFood.Service.Services.Orders;
-using TwistFood.Service.ViewModels.Discounts;
-using TwistFood.Service.ViewModels.Products;
 
 namespace TwistFood.Web.Controllers;
 
@@ -44,11 +38,11 @@ public class ProductsController : Controller
 
 
     [HttpGet("DiscountId")]
-    public async Task<IActionResult> Dsicount(long DiscountId) 
+    public async Task<IActionResult> Dsicount(long DiscountId)
     {
         var DiscountInfo = await _discountService.GetAsync(DiscountId);
 
-        if(_cache.TryGetValue(_identityService.Id!.Value, out long orderId))
+        if (_cache.TryGetValue(_identityService.Id!.Value, out long orderId))
         {
             OrderDeteilsCreateDto orderDeteilsCreateDto = new()
             {
@@ -59,7 +53,7 @@ public class ProductsController : Controller
 
             await _orderDeteilService.OrderCreateAsync(orderId, orderDeteilsCreateDto);
 
-            
+
             return RedirectToAction("index", "products", new { area = "" });
         }
         else
@@ -70,7 +64,7 @@ public class ProductsController : Controller
                 Longitude = 69.199571,
                 DeliverPrice = 9000,
                 IsDiscount = true,
-                DiscountId= DiscountId
+                DiscountId = DiscountId
             };
             var OrderId = await _orderService.OrderCreateAsync(orderCreateDto);
 
@@ -85,7 +79,7 @@ public class ProductsController : Controller
 
             _cache.Set(_identityService.Id!.Value, OrderId);
 
-            
+
             return RedirectToAction("index", "products", new { area = "" });
         }
     }

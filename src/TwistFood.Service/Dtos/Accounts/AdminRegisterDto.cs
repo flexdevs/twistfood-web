@@ -1,14 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TwistFood.Domain.Entities.Employees;
 using TwistFood.Service.Attributes;
 using TwistFood.Service.Common.Attributes;
-using TwistFood.Service.Dtos.Operators;
 
 namespace TwistFood.Service.Dtos.Accounts
 {
@@ -53,7 +47,7 @@ namespace TwistFood.Service.Dtos.Accounts
                 Email = dto.Email,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
-                IsHead= dto.IsHead,
+                IsHead = dto.IsHead,
             };
         }
     }

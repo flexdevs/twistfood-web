@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TwistFood.Service.Common.Exceptions;
-using TwistFood.Service.Dtos;
 using TwistFood.Service.Dtos.Accounts;
 using TwistFood.Service.Interfaces.Accounts;
 
@@ -12,7 +11,7 @@ namespace TwistFood.Web.Controllers
         private readonly IAccountService _service;
         private readonly IVerifyPhoneNumberService _verify;
 
-        public VerifyPhoneNumbersController(IAccountService acccountService, 
+        public VerifyPhoneNumbersController(IAccountService acccountService,
             IVerifyPhoneNumberService verifyPhoneNumberService)
         {
             this._service = acccountService;

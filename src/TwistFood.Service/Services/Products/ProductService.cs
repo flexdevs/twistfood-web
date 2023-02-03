@@ -1,23 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Runtime.ConstrainedExecution;
-using System.Text;
-using System.Threading.Tasks;
 using TwistFood.DataAccess.Interfaces;
-using TwistFood.Domain.Entities.Employees;
 using TwistFood.Domain.Entities.Products;
 using TwistFood.Domain.Exceptions;
 using TwistFood.Service.Common.Utils;
-using TwistFood.Service.Dtos;
 using TwistFood.Service.Dtos.Products;
 using TwistFood.Service.Interfaces;
-using TwistFood.Service.Interfaces.Common;
 using TwistFood.Service.Interfaces.Products;
-using TwistFood.Service.Services.Common;
-using TwistFood.Service.ViewModels.Orders;
 using TwistFood.Service.ViewModels.Products;
 
 namespace TwistFood.Service.Services.Products
@@ -27,7 +16,7 @@ namespace TwistFood.Service.Services.Products
         private readonly IUnitOfWork _unitOfWork;
         private readonly IFileService _fileService;
 
-        public ProductService(IUnitOfWork unitOfWork, 
+        public ProductService(IUnitOfWork unitOfWork,
                               IFileService fileService)
         {
             _unitOfWork = unitOfWork;
@@ -113,7 +102,7 @@ namespace TwistFood.Service.Services.Products
                                             .OrderBy(x => x.Id).ThenByDescending(x => x.Price)
                                             .ToListAsync();
 
-            if(res is not null)
+            if (res is not null)
             {
                 List<ProductViewModel> result = new List<ProductViewModel>();
 
@@ -161,11 +150,11 @@ namespace TwistFood.Service.Services.Products
                 UpdateProductDto productViewModel = new UpdateProductDto()
                 {
                     ProductId = product.Id,
-                    CategoryId= product.CategoryId,
+                    CategoryId = product.CategoryId,
                     ProductName = product.ProductName,
                     ProductDescription = product.ProductDescription,
                     Price = product.Price
-                    
+
                 };
 
                 return productViewModel;
@@ -242,7 +231,7 @@ namespace TwistFood.Service.Services.Products
                 {
                     product.ImagePath = res.ImagePath;
                 }
-                
+
                 _unitOfWork.Products.Update(id, product);
                 var result = await _unitOfWork.SaveChangesAsync();
                 return result > 0;
@@ -252,21 +241,21 @@ namespace TwistFood.Service.Services.Products
 
         public async Task<IEnumerable<Product>> GetAllForSearchAsync(string categoryName, string searchName)
         {
-            if (categoryName == "") 
+            if (categoryName == "")
             {
-               var result =   _unitOfWork.Products.GetAll().
-                    AsNoTracking().
-                    Where(x => x.ProductName.ToLower().StartsWith(searchName.ToLower())).
-                    ToList();
+                var result = _unitOfWork.Products.GetAll().
+                     AsNoTracking().
+                     Where(x => x.ProductName.ToLower().StartsWith(searchName.ToLower())).
+                     ToList();
 
-                if(result.Count > 0)    
-                        return result;
+                if (result.Count > 0)
+                    return result;
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Product not found");
             }
             else
             {
                 var category = await _unitOfWork.Categories.FirstOrDefaultAsync(x => x.CategoryName.ToLower().StartsWith(categoryName.ToLower()));
-                if(category == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "Category not found"); }
+                if (category == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "Category not found"); }
                 var result = _unitOfWork.Products.GetAll().
                     AsNoTracking().
                     Where(x => x.CategoryId == category.Id).

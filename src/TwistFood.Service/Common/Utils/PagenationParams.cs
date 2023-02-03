@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TwistFood.Service.Common.Utils
+﻿namespace TwistFood.Service.Common.Utils
 {
     public class PagenationParams
     {

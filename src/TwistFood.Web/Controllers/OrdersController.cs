@@ -1,10 +1,5 @@
-﻿using MailKit.Search;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
-using Org.BouncyCastle.Asn1.X509;
-using TwistFood.Domain.Entities.Order;
 using TwistFood.Domain.Enums;
 using TwistFood.Service.Common.Utils;
 using TwistFood.Service.Dtos.Orders;
@@ -36,7 +31,7 @@ namespace TwistFood.Web.Controllers
             if (_cache.TryGetValue(_identityService.Id!.Value, out long orderId))
             {
                 var order = await _orderService.GetOrderWithOrderDetailsAsync(orderId);
-                if(order.Status == "New")
+                if (order.Status == "New")
                 {
                     return View("ActiveOrder", order);
                 }
@@ -67,16 +62,16 @@ namespace TwistFood.Web.Controllers
             {
                 return RedirectToAction("index", "products", new { area = "" });
             }
-            
+
         }
 
         public async Task<IActionResult> MyOrders(int page = 1)
         {
             var orders = await _orderService.GetAllAsync(new PagenationParams(page, _pageSize));
             List<OrderViewModel> userOrders = new List<OrderViewModel>();
-            foreach(var order in orders)
+            foreach (var order in orders)
             {
-                if(order.UserPhoneNumber == _identityService.PhoneNumber)
+                if (order.UserPhoneNumber == _identityService.PhoneNumber)
                 {
                     userOrders.Add(order);
                 }

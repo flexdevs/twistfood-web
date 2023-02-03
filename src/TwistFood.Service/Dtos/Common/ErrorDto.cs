@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TwistFood.Service.Dtos.Common
+﻿namespace TwistFood.Service.Dtos.Common
 {
     public class ErrorDto
     {

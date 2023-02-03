@@ -1,5 +1,4 @@
-﻿using OnlineMarket.Domain.Common;
-using TwistFood.Domain.Common;
+﻿using TwistFood.Domain.Common;
 
 namespace TwistFood.Domain.Entities.Users;
 

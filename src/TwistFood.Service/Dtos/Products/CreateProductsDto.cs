@@ -1,12 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TwistFood.Domain.Entities.Categories;
-using TwistFood.Domain.Entities.Employees;
 using TwistFood.Domain.Entities.Products;
 using TwistFood.Service.Attributes;
 
@@ -16,7 +9,7 @@ namespace TwistFood.Service.Dtos.Products
     {
         [Required]
         public long CategoryId { get; set; }
-        
+
         [Required, MaxLength(60), MinLength(2)]
         public string ProductName { get; set; } = string.Empty;
         [Required]

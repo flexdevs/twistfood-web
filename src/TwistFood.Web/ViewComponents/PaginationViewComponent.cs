@@ -3,11 +3,11 @@ using TwistFood.Service.Common.Utils;
 
 namespace TwistFood.Web.ViewComponents
 {
-    public class PaginationViewComponent<T>:ViewComponent
+    public class PaginationViewComponent : ViewComponent
     {
-        public IViewComponentResult Invoke(PagedList<T> values)
+        public IViewComponentResult Invoke(Tuple<string, string, string, PaginationMetaData> tuple)
         {
-            return View(values.MetaData);
+            return View(tuple);
         }
     }
 }

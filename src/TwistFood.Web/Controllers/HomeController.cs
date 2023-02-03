@@ -7,17 +7,17 @@ using TwistFood.Web.Models;
 
 namespace TwistFood.Web.Controllers
 {
-	[Authorize]
-	public class HomeController : Controller
-	{
-		private readonly ILogger<HomeController> _logger;
+    [Authorize]
+    public class HomeController : Controller
+    {
+        private readonly ILogger<HomeController> _logger;
         private readonly IDiscountService _discountService;
         private readonly int _pageSize = 30;
 
         public HomeController(ILogger<HomeController> logger, IDiscountService discountService)
-		{
-			_logger = logger;
-			this._discountService = discountService;
+        {
+            _logger = logger;
+            this._discountService = discountService;
 
         }
 
@@ -27,10 +27,10 @@ namespace TwistFood.Web.Controllers
             return View("Index", discounts);
         }
 
-		public IActionResult Privacy()
-		{
-			return View();
-		}
+        public IActionResult Privacy()
+        {
+            return View();
+        }
 
         public IActionResult About()
         {
@@ -38,9 +38,9 @@ namespace TwistFood.Web.Controllers
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-		public IActionResult Error()
-		{
-			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-		}
-	}
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+    }
 }

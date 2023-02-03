@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TwistFood.Domain.Common;
-using TwistFood.Domain.Enums;
+﻿using TwistFood.Domain.Common;
 
 namespace TwistFood.Service.ViewModels.Orders
 {

@@ -1,23 +1,11 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
+﻿using System.Data.Entity;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using TwistFood.DataAccess.Interfaces;
 using TwistFood.Domain.Entities.Categories;
-using TwistFood.Domain.Entities.Employees;
-using TwistFood.Domain.Entities.Products;
 using TwistFood.Domain.Exceptions;
 using TwistFood.Service.Common.Utils;
 using TwistFood.Service.Dtos;
-using TwistFood.Service.Dtos.Products;
-using TwistFood.Service.Interfaces;
 using TwistFood.Service.Interfaces.Categories;
-using TwistFood.Service.Interfaces.Common;
-using TwistFood.Service.Services.Common;
 using TwistFood.Service.ViewModels.Categories;
 using TwistFood.Service.ViewModels.Products;
 
@@ -63,7 +51,7 @@ namespace TwistFood.Service.Services.Categories
 
             List<ProductViewModel> list = new List<ProductViewModel>();
 
-            foreach ( var product in products)
+            foreach (var product in products)
             {
                 ProductViewModel productViewModel = new ProductViewModel()
                 {
@@ -78,11 +66,11 @@ namespace TwistFood.Service.Services.Categories
             }
 
             return new CategoryViewModels()
-                    {
-                        Id = category.Id,
-                        CategoryName = category.CategoryName,
-                        Products = list
-                    };
+            {
+                Id = category.Id,
+                CategoryName = category.CategoryName,
+                Products = list
+            };
         }
 
         public async Task<bool> DeleteAsync(long id)
@@ -90,12 +78,12 @@ namespace TwistFood.Service.Services.Categories
             var res = await _unitOfWork.Categories.FindByIdAsync(id);
             if (res is not null)
             {
-                var products =   _unitOfWork.Products.Where(x => x.CategoryId == res.Id).ToList();
-                foreach(var product in products)
+                var products = _unitOfWork.Products.Where(x => x.CategoryId == res.Id).ToList();
+                foreach (var product in products)
                 {
                     //_unitOfWork.Entry(product).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
                     product.CategoryId = null;
-                    _unitOfWork.Products.Update(product.Id,product);
+                    _unitOfWork.Products.Update(product.Id, product);
                 }
                 _unitOfWork.Categories.Delete(res.Id);
                 var result = await _unitOfWork.SaveChangesAsync();
@@ -118,7 +106,7 @@ namespace TwistFood.Service.Services.Categories
 
                 };
 
-                
+
 
                 _unitOfWork.Categories.Update(Id, category1);
                 var result = await _unitOfWork.SaveChangesAsync();

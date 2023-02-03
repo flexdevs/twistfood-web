@@ -1,13 +1,5 @@
-﻿
-using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net;
 using TwistFood.DataAccess.Interfaces;
-using TwistFood.Domain.Entities.Order;
 using TwistFood.Domain.Entities.Phones;
 using TwistFood.Domain.Entities.Users;
 using TwistFood.Domain.Exceptions;
@@ -19,9 +11,6 @@ using TwistFood.Service.Dtos.Account;
 using TwistFood.Service.Dtos.Accounts;
 using TwistFood.Service.Interfaces;
 using TwistFood.Service.Interfaces.Accounts;
-using TwistFood.Service.Interfaces.Common;
-using TwistFood.Service.Security;
-using TwistFood.Service.Services.Common;
 
 namespace TwistFood.Service.Services.Accounts
 {
@@ -34,7 +23,7 @@ namespace TwistFood.Service.Services.Accounts
         {
         }
 
-        public AccountService(IUnitOfWork unitOfWork, 
+        public AccountService(IUnitOfWork unitOfWork,
                               IAuthManager authManager)
         {
             _unitOfWork = unitOfWork;
@@ -43,12 +32,12 @@ namespace TwistFood.Service.Services.Accounts
 
         public async Task<string> AccountLoginAsync(AccountLoginDto accountLoginDto)
         {
-            var admin = await _unitOfWork.Admins.FirstOrDefaultAsync(x=>x.PhoneNumber== accountLoginDto.PhoneNumber);   
+            var admin = await _unitOfWork.Admins.FirstOrDefaultAsync(x => x.PhoneNumber == accountLoginDto.PhoneNumber);
             var user = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.PhoneNumber == accountLoginDto.PhoneNumber);
             if (user is null && admin is null) throw new ModelErrorException(nameof(accountLoginDto.PhoneNumber), "Bunday telefon raqam bilan foydalanuvchi mavjud emas!");
 
-            string token="";
-            if(user is not null) token = _authManager.GenerateUserToken(user);
+            string token = "";
+            if (user is not null) token = _authManager.GenerateUserToken(user);
             if (admin is not null) { token = _authManager.GenerateAdminToken(admin); }
 
             return token;
@@ -60,23 +49,23 @@ namespace TwistFood.Service.Services.Accounts
             if (res is not null)
                 throw new ModelErrorException(nameof(accountRegisterDto.PhoneNumber), "Bunday telefon raqam bilan foydalanuvchi mavjud!");
 
-            User user = new User() 
+            User user = new User()
             {
-                CreatedAt= DateTime.UtcNow, 
-                UpdatedAt= DateTime.UtcNow, 
-                FullName = accountRegisterDto.FullName,  
-                PhoneNumber= accountRegisterDto.PhoneNumber  
-                  
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
+                FullName = accountRegisterDto.FullName,
+                PhoneNumber = accountRegisterDto.PhoneNumber
+
             };
-            if (accountRegisterDto.TelegramId!= null) 
+            if (accountRegisterDto.TelegramId != null)
             {
                 user.TelegramId = accountRegisterDto.TelegramId;
             }
-            _unitOfWork.Users.Add(user);    
-            await _unitOfWork.SaveChangesAsync();   
+            _unitOfWork.Users.Add(user);
+            await _unitOfWork.SaveChangesAsync();
 
 
-            if (accountRegisterDto.PhoneId!= null) 
+            if (accountRegisterDto.PhoneId != null)
             {
                 var user1 = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.PhoneNumber == accountRegisterDto.PhoneNumber);
 
@@ -88,8 +77,8 @@ namespace TwistFood.Service.Services.Accounts
                     UserId = user1!.Id,
                     Status = "Active"
                 };
-                _unitOfWork.Phones.Add(phone);  
-               await  _unitOfWork.SaveChangesAsync();
+                _unitOfWork.Phones.Add(phone);
+                await _unitOfWork.SaveChangesAsync();
             }
 
             return true;
@@ -101,7 +90,7 @@ namespace TwistFood.Service.Services.Accounts
             var user = await _unitOfWork.Users.FindByIdAsync(HttpContextHelper.UserId);
             if (user == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "User not found!"); }
 
-            if(accountUpdateDto.FullName is not null)
+            if (accountUpdateDto.FullName is not null)
             {
                 user.FullName = accountUpdateDto.FullName;
             }
@@ -116,7 +105,7 @@ namespace TwistFood.Service.Services.Accounts
             var query = _unitOfWork.Users.GetAll()
             .OrderBy(x => x.Id);
 
-            return await  PagedList<User>.ToPagedListAsync(query,
+            return await PagedList<User>.ToPagedListAsync(query,
                 @params);
         }
 

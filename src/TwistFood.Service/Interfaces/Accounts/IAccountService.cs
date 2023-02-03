@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TwistFood.Domain.Entities.Products;
-using TwistFood.Domain.Entities.Users;
+﻿using TwistFood.Domain.Entities.Users;
 using TwistFood.Service.Common.Utils;
 using TwistFood.Service.Dtos;
 using TwistFood.Service.Dtos.Account;
