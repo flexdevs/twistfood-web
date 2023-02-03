@@ -16,7 +16,7 @@ namespace TwistFood.Service.Interfaces.Accounts
     {
         public Task<string> AccountLoginAsync(AccountLoginDto accountLoginDto);
         public Task<bool> AccountRegisterAsync(AccountRegisterDto accountRegisterDto);
-        public Task<bool> AccountUpdateAsync(AccountUpdateDto accountUpdateDto);
+        public Task<string> AccountUpdateAsync(AccountUpdateDto accountUpdateDto);
 
         public Task<PagedList<User>> GetAllAsync(PagenationParams @params);
 
