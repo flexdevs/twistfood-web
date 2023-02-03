@@ -117,6 +117,49 @@ namespace TwistFood.Web.Controllers
             });
             return RedirectToAction("Login", "Accounts", new { area = "" });
         }
+
+        [HttpGet("update")]
+        public ViewResult Update()
+        {
+            return View("Update");
+        }
+
+        /*[HttpPost("update")]
+        public async Task<IActionResult> UpdateAsync(AccountUpdateDto accountUpdateDto)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var res = _service.AccountUpdateAsync(accountUpdateDto);
+                    *//*SendToPhoneNumberDto sendToPhoneNumberDto = new SendToPhoneNumberDto()
+                    {
+                        PhoneNumber = accountLoginDto.PhoneNumber,
+                    };
+                    bool res = await _verify.SendCodeAsync(sendToPhoneNumberDto);
+                    if (res)
+                    {
+                        TempData["tel"] = accountLoginDto.PhoneNumber;
+
+                        return RedirectToAction("VerifyPhoneNumber", "verify", new { area = "" });
+                    }
+                    else
+                    {
+                        return Login();
+                    }*//*
+                }
+                catch (ModelErrorException modelError)
+                {
+                    ModelState.AddModelError(modelError.Property, modelError.Message);
+                    return Login();
+                }
+                catch
+                {
+                    return Login();
+                }
+            }
+            else return Login();
+        }*/
     }
     
 }

@@ -1,0 +1,27 @@
+﻿@using TwistFood.Service.Dtos.Accounts;
+@model AccountUpdateDto
+@{
+    ViewData["Title"] = "Profil Page";
+    Layout = "_AccountLayout.cshtml";
+}
+
+<div class="container">
+    <div class="forms">
+        <div class="form signup">
+            <span class="title">Ro'yhatdan ot'ish</span>
+
+            <form asp-area="" asp-controller="accounts" asp-action="update" method="post">
+                <div class="input-field">
+                    <input type="text" asp-for=FullName placeholder="Ism va familangizni kiriting" required>
+                    <i class="uil uil-user"></i>
+                </div>
+                <span asp-validation-for="FullName" class="text-danger"></span>
+
+                <div class="input-field button">
+                    <input type="submit" value="O'zgarishni saqlash">
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
