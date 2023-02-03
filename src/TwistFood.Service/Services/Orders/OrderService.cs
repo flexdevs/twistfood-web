@@ -1,5 +1,4 @@
 ﻿using System.Data.Entity;
-using System.Diagnostics;
 using System.Net;
 using TwistFood.DataAccess.Interfaces;
 using TwistFood.Domain.Common;
@@ -42,23 +41,23 @@ namespace TwistFood.Service.Services.Orders
         {
 
             var query = (from order in _unitOfWork.Orders.Where(x => x.Status != OrderStatus.New && x.Status != OrderStatus.Successful && x.TotalSum > 0).OrderByDescending(x => x.CreatedAt)
-                        let userPhone = _unitOfWork.Users.GetAll().FirstOrDefault(x => x.Id == order.UserId).PhoneNumber
-                        let orderDetails = (from orderDetail in _unitOfWork.OrderDetails.GetAll().Where(x=>x.OrderId==order.Id)
-                                            join product in _unitOfWork.Products.GetAll() on orderDetail.ProductId equals product.Id
-                                            select product.ProductName).ToList()
-                        select new OrderViewModel()
-                        {
-                            Id = order.Id,
-                            CreatedAt = order.CreatedAt,
-                            paymentType = order.PaymentType.ToString(),
-                            Status = order.Status.ToString(),
-                            TotalSum = order.TotalSum,
-                            UserPhoneNumber = userPhone,
-                            deliverId = (order.DeliverId == null) ? 0 : order.DeliverId.Value,
-                            operatorId = (order.OperatorId == null) ? 0 : order.OperatorId.Value,
-                            OrderDetails = orderDetails,
-                            UpdatedAt = order.UpdatedAt
-                        }).AsNoTracking();
+                         let userPhone = _unitOfWork.Users.GetAll().FirstOrDefault(x => x.Id == order.UserId).PhoneNumber
+                         let orderDetails = (from orderDetail in _unitOfWork.OrderDetails.GetAll().Where(x => x.OrderId == order.Id)
+                                             join product in _unitOfWork.Products.GetAll() on orderDetail.ProductId equals product.Id
+                                             select product.ProductName).ToList()
+                         select new OrderViewModel()
+                         {
+                             Id = order.Id,
+                             CreatedAt = order.CreatedAt,
+                             paymentType = order.PaymentType.ToString(),
+                             Status = order.Status.ToString(),
+                             TotalSum = order.TotalSum,
+                             UserPhoneNumber = userPhone,
+                             deliverId = (order.DeliverId == null) ? 0 : order.DeliverId.Value,
+                             operatorId = (order.OperatorId == null) ? 0 : order.OperatorId.Value,
+                             OrderDetails = orderDetails,
+                             UpdatedAt = order.UpdatedAt
+                         }).AsNoTracking();
 
             return await PagedList<OrderViewModel>.ToPagedListAsync(query, @params);
         }
