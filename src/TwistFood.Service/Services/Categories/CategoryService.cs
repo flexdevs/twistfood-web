@@ -26,12 +26,10 @@ namespace TwistFood.Service.Services.Categories
     public class CategoryService : ICategoryService
     {
         private IUnitOfWork _unitOfWork;
-        private IPaginatorService _paginatorService;
 
-        public CategoryService(IUnitOfWork unitOfWork, IPaginatorService paginatorService)
+        public CategoryService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _paginatorService = paginatorService;
         }
         public async Task<bool> CreateCategoryAsync(CategoryDto categoryDto)
         {
@@ -47,13 +45,13 @@ namespace TwistFood.Service.Services.Categories
             return true;
         }
 
-        public async Task<IEnumerable<Category>> GetAllAsync(PagenationParams @params)
+        public async Task<PagedList<Category>> GetAllAsync(PagenationParams @params)
         {
             var query = _unitOfWork.Categories.GetAll()
             .OrderBy(x => x.Id);
 
-            return await _paginatorService.ToPageAsync(query,
-                @params.PageNumber, @params.PageSize);
+            return await PagedList<Category>.ToPagedListAsync(query,
+                @params);
         }
 
         public async Task<CategoryViewModels> GetAsync(long id)

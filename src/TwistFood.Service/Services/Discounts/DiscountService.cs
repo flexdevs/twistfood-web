@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -27,15 +28,12 @@ namespace TwistFood.Service.Services.Discounts
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IFileService _fileService;
-        private readonly IPaginatorService _paginatorService;
 
         public DiscountService(IUnitOfWork unitOfWork, 
-                               IFileService fileService,
-                               IPaginatorService paginatorService)
+                               IFileService fileService)
         {
             _unitOfWork = unitOfWork;
             _fileService = fileService;
-            _paginatorService = paginatorService;
         }
 
         public async Task<bool> CreateDiscountAsync(DiscountCreateDto discountCreateDto)
@@ -70,33 +68,21 @@ namespace TwistFood.Service.Services.Discounts
             else throw new StatusCodeException(HttpStatusCode.NotFound, "Discount not found");
         }
 
-        public async Task<IEnumerable<DiscountViewModel>> GetAllAsync(PagenationParams @params)
+        public async Task<PagedList<DiscountViewModel>> GetAllAsync(PagenationParams @params)
         {
             var query = _unitOfWork.Discounts.GetAll()
-            .OrderBy(x => x.Id).ThenByDescending(x => x.Price);
-
-            var res =  await _paginatorService.ToPageAsync(query,
-                @params.PageNumber, @params.PageSize);
-
-            List<DiscountViewModel> result = new List<DiscountViewModel>();
-
-            foreach (var discount in res)
+            .OrderBy(x => x.Id).ThenByDescending(x => x.Price).Select(discount=>new DiscountViewModel()
             {
-                DiscountViewModel discountViewModel = new DiscountViewModel()
-                {
-                    Id = discount.Id,
-                    DiscountName = discount.DiscountName,
-                    DiscountDescription = discount.Description,
-                    StartTime = discount.StartTime.ToShortDateString(),
-                    EndTime= discount.EndTime.ToShortDateString(),
-                    Price = discount.Price,
-                    ImagePath = discount.ImagePath,
-                };
+                Id = discount.Id,
+                DiscountName = discount.DiscountName,
+                DiscountDescription = discount.Description,
+                StartTime = discount.StartTime.ToShortDateString(),
+                EndTime = discount.EndTime.ToShortDateString(),
+                Price = discount.Price,
+                ImagePath = discount.ImagePath,
+            });
 
-                result.Add(discountViewModel);
-            }
-
-            return result;
+            return await PagedList<DiscountViewModel>.ToPagedListAsync(query,@params);
         }
 
         public async Task<DiscountViewModel> GetAsync(long id)
