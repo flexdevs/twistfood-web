@@ -24,7 +24,7 @@ public class ProductsController : Controller
     private readonly IIdentityService _identityService;
     private readonly IOrderDeteilsService _orderDeteilService;
     private readonly IDiscountService _discountService;
-    private readonly int _pageSize = 30;
+    private readonly int _pageSize = 5;
     public ProductsController(IProductService productService, IOrderService orderService,
                               IMemoryCache cache, IIdentityService identityService,
                               IOrderDeteilsService orderDeteilService, IDiscountService discountService)
@@ -38,10 +38,8 @@ public class ProductsController : Controller
     }
     public async Task<ViewResult> Index(int page = 1)
     {
-        var discounts = await _discountService.GetAllAsync(new PagenationParams(page, _pageSize));
         var products = await _productService.GetAllAsync(new PagenationParams(page, _pageSize));
-        var tuple = new Tuple<List<DiscountViewModel>, List<ProductViewModel>>(discounts.ToList(), products.ToList());
-        return View("Index", tuple);
+        return View("Index", products);
     }
 
 

@@ -4,7 +4,7 @@
 }
 
 @using TwistFood.Service.ViewModels.Orders;
-@model List<OrderViewModel>
+@model PagedList<OrderViewModel>
 
 <div class="col-md-12 mx-4 me-4 mt-4 mb-4 pt-2 pb-2 pe-4 px-4">
     <h3 class="title-5 text-center mt-2">Orders</h3>
@@ -53,4 +53,47 @@
 
         </tbody>
     </table>
+</div>
+<div class="mt-4">
+    <ul class="pagination pagination-outline justify-content-center">
+        @{
+            if (Model.MetaData.HasPrevious)
+            {
+                <li class="page-item previous  m-1">
+                    <a asp-controller="products" asp-action="index" asp-route-page="@(Model.MetaData.CurrentPage-1)" as class="page-link">
+                        <i class="previous">
+                        </i>Back
+                    </a>
+                </li>
+
+            }
+            else
+            {
+                <li class="page-item previous disabled m-1"><a href="#" class="page-link"><i class="previous"></i>Back</a></li>
+
+            }
+            for (int i = 1; i <= Model.MetaData.TotalPages; i++)
+            {
+                if (i == Model.MetaData.CurrentPage)
+                {
+                    <li class="page-item active m-1"><a asp-controller="products" asp-action="index" asp-route-page="@i" class="page-link">@i</a></li>
+                }
+                else
+                {
+                    <li class="page-item  m-1"><a asp-controller="products" asp-action="index" asp-route-page="@i" class="page-link">@i</a></li>
+                }
+
+            }
+            if (Model.MetaData.HasNext)
+            {
+                <li class="page-item next m-1"><a asp-controller="products" asp-action="index" asp-route-page="@(Model.MetaData.CurrentPage+1)" class="page-link"><i class="next"></i>Next</a></li>
+            }
+            else
+            {
+                <li class="page-item disabled next m-1"><a href="#" class="page-link"><i class="next"></i>Next</a></li>
+            }
+        }
+
+
+    </ul>
 </div>

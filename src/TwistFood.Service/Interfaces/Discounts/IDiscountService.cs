@@ -15,7 +15,7 @@ namespace TwistFood.Service.Interfaces.Discounts
     public interface IDiscountService
     {
         public Task<bool> CreateDiscountAsync(DiscountCreateDto discountCreateDto);
-        public Task<IEnumerable<DiscountViewModel>> GetAllAsync(PagenationParams @params);
+        public Task<PagedList<DiscountViewModel>> GetAllAsync(PagenationParams @params);
 
         public Task<DiscountViewModel> GetAsync(long id);
 

@@ -15,7 +15,7 @@ namespace TwistFood.Service.Interfaces.Products
     public interface IProductService
     {
         public Task<bool> CreateProductAsync(CreateProductsDto createProductsDto);
-        public Task<IEnumerable<ProductViewModel>> GetAllAsync(PagenationParams @params);
+        public Task<PagedList<ProductViewModel>> GetAllAsync(PagenationParams @params);
         public Task<IEnumerable<ProductViewModel>> SearchByNameAsync(string name);
 
         public Task<ProductViewModel> GetAsync(long id);

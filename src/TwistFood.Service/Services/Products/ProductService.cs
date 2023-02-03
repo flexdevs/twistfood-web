@@ -26,15 +26,12 @@ namespace TwistFood.Service.Services.Products
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IFileService _fileService;
-        private readonly IPaginatorService _paginatorService;
 
         public ProductService(IUnitOfWork unitOfWork, 
-                              IFileService fileService,
-                              IPaginatorService paginatorService)
+                              IFileService fileService)
         {
             _unitOfWork = unitOfWork;
             _fileService = fileService;
-            _paginatorService = paginatorService;
         }
         public async Task<bool> CreateProductAsync(CreateProductsDto createProductsDto)
         {
@@ -73,7 +70,7 @@ namespace TwistFood.Service.Services.Products
             else throw new StatusCodeException(HttpStatusCode.NotFound, "Product not found");
         }
 
-        public async Task<IEnumerable<ProductViewModel>> GetAllAsync(PagenationParams @params)
+        public async Task<PagedList<ProductViewModel>> GetAllAsync(PagenationParams @params)
         {
             /*var query = _unitOfWork.Products.GetAll()
             .OrderBy(x => x.Id).ThenByDescending(x => x.Price).ToList();*/
@@ -107,9 +104,7 @@ namespace TwistFood.Service.Services.Products
                             Price = product.Price,
                             ImagePath = product.ImagePath,
                         };
-            return await query.Skip((@params.PageNumber - 1) * @params.PageSize)
-                              .Take(@params.PageSize).AsNoTracking()
-                              .ToListAsync();
+            return await PagedList<ProductViewModel>.ToPagedListAsync(query, @params);
         }
 
         public async Task<IEnumerable<ProductViewModel>> SearchByNameAsync(string name)

@@ -13,6 +13,14 @@ namespace TwistFood.Service.Common.Utils
         public bool HasNext { get; set; }
         public bool HasPrevious { get; set; }
         public int PageSize { get; set; }
-        public int TotalItems { get; set; }
+
+        public PagenationMetaData( int totalCount, int pageSize, int pageIndex)
+        {
+            CurrentPage = (int)pageIndex;
+            TotalPages = (int)Math.Ceiling((double)totalCount/pageSize);
+            HasNext = pageIndex<TotalPages;
+            HasPrevious = pageIndex>1;
+            PageSize = pageSize;
+        }
     }
 }

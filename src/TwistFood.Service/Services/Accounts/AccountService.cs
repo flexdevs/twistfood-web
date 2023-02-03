@@ -29,19 +29,16 @@ namespace TwistFood.Service.Services.Accounts
     {
         private IUnitOfWork _unitOfWork;
         private IAuthManager _authManager;
-        private IPaginatorService _paginatorService;
 
         public AccountService()
         {
         }
 
         public AccountService(IUnitOfWork unitOfWork, 
-                              IAuthManager authManager,
-                              IPaginatorService paginatorService)
+                              IAuthManager authManager)
         {
             _unitOfWork = unitOfWork;
             _authManager = authManager;
-            _paginatorService = paginatorService;
         }
 
         public async Task<string> AccountLoginAsync(AccountLoginDto accountLoginDto)
@@ -114,13 +111,13 @@ namespace TwistFood.Service.Services.Accounts
             return result > 0;
         }
 
-        public async Task<IEnumerable<User>> GetAllAsync(PagenationParams @params)
+        public async Task<PagedList<User>> GetAllAsync(PagenationParams @params)
         {
             var query = _unitOfWork.Users.GetAll()
             .OrderBy(x => x.Id);
 
-            return await _paginatorService.ToPageAsync(query,
-                @params.PageNumber, @params.PageSize);
+            return await  PagedList<User>.ToPagedListAsync(query,
+                @params);
         }
 
         public async Task<User> GetAsync(long id)

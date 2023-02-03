@@ -24,14 +24,12 @@ namespace TwistFood.Service.Services.Orders
     public class OrderService : IOrderService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IPaginatorService _paginatorService;
         private readonly IIdentityService _identityService;
 
-        public OrderService(IUnitOfWork unitOfWork, IPaginatorService paginatorService,
+        public OrderService(IUnitOfWork unitOfWork,
                             IIdentityService identityService)
         {
             _unitOfWork = unitOfWork;
-            this._paginatorService = paginatorService;
             _identityService = identityService;
 
         }
@@ -47,13 +45,13 @@ namespace TwistFood.Service.Services.Orders
             return res > 0;
         }
 
-        public async Task<IEnumerable<OrderViewModel>> GetAllAsync(PagenationParams @params)
+        public async Task<PagedList<OrderViewModel>> GetAllAsync(PagenationParams @params)
         {
             var query = _unitOfWork.Orders.GetAll().Where(x => x.Status != OrderStatus.New)
           .OrderByDescending(x => x.Id);
 
-            var res = await _paginatorService.ToPageAsync(query,
-                @params.PageNumber, @params.PageSize);
+            var res = await PagedList<Order>.ToPagedListAsync(query,
+                @params);
             if (res is null) { throw new StatusCodeException(HttpStatusCode.NotFound, "Orders not found"); }
 
             List<OrderViewModel> result = new List<OrderViewModel>();   
@@ -93,7 +91,7 @@ namespace TwistFood.Service.Services.Orders
                 orderViewModel.OrderDetails = orderDetails; 
                 result.Add(orderViewModel); 
             }
-            return result;
+            return await PagedList<OrderViewModel>.ListToPagedListAsync(result,@params);
         }
 
         public async Task<OrderWithOrderDetailsViewModel> GetOrderWithOrderDetailsAsync(long id)
