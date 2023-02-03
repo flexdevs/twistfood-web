@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,16 +30,19 @@ namespace TwistFood.Service.Services.Accounts
     {
         private IUnitOfWork _unitOfWork;
         private IAuthManager _authManager;
+        private IIdentityService _identityService;
 
         public AccountService()
         {
         }
 
         public AccountService(IUnitOfWork unitOfWork, 
-                              IAuthManager authManager)
+                              IAuthManager authManager,
+                              IIdentityService identityService)
         {
             _unitOfWork = unitOfWork;
             _authManager = authManager;
+            _identityService = identityService;
         }
 
         public async Task<string> AccountLoginAsync(AccountLoginDto accountLoginDto)
@@ -96,9 +100,9 @@ namespace TwistFood.Service.Services.Accounts
 
         }
 
-        public async Task<bool> AccountUpdateAsync(AccountUpdateDto accountUpdateDto)
+        public async Task<string> AccountUpdateAsync(AccountUpdateDto accountUpdateDto)
         {
-            var user = await _unitOfWork.Users.FindByIdAsync(HttpContextHelper.UserId);
+            var user = await _unitOfWork.Users.FindByIdAsync(_identityService.Id!.Value);
             if (user == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "User not found!"); }
 
             if(accountUpdateDto.FullName is not null)
@@ -106,9 +110,17 @@ namespace TwistFood.Service.Services.Accounts
                 user.FullName = accountUpdateDto.FullName;
             }
 
-            _unitOfWork.Users.Update(HttpContextHelper.UserId, user);
+            _unitOfWork.Users.Update(_identityService.Id!.Value, user);
             var result = await _unitOfWork.SaveChangesAsync();
-            return result > 0;
+            if (result == 1)
+            {
+                var token = _authManager.GenerateUserToken(user);
+                return token;
+            }
+            else
+            {
+                return "false";
+            }
         }
 
         public async Task<PagedList<User>> GetAllAsync(PagenationParams @params)

@@ -5,6 +5,7 @@ using TwistFood.Service.Dtos;
 using TwistFood.Service.Dtos.Account;
 using TwistFood.Service.Dtos.Accounts;
 using TwistFood.Service.Interfaces.Accounts;
+using TwistFood.Service.Interfaces.Common;
 
 namespace TwistFood.Web.Controllers
 {
@@ -13,11 +14,15 @@ namespace TwistFood.Web.Controllers
     {
         private readonly IAccountService _service;
         private readonly IVerifyPhoneNumberService _verify;
+        private readonly IIdentityService _identityService;
 
-        public AccountsController(IAccountService acccountService, IVerifyPhoneNumberService verifyPhoneNumberService)
+        public AccountsController(IAccountService acccountService, 
+                                  IVerifyPhoneNumberService verifyPhoneNumberService,
+                                  IIdentityService identityService)
         {
             this._service = acccountService;
             this._verify = verifyPhoneNumberService;
+            this._identityService = identityService;
         }
 
         [HttpGet("login")]
@@ -119,34 +124,37 @@ namespace TwistFood.Web.Controllers
         }
 
         [HttpGet("update")]
-        public ViewResult Update()
+        public async Task<ViewResult> Update()
         {
-            return View("Update");
+            var user = await _service.GetAsync(_identityService.Id!.Value);
+            var AccountUpdateDto = new AccountUpdateDto()
+            {
+                FullName = user.FullName
+            };
+            return View("Update", AccountUpdateDto);
         }
 
-        /*[HttpPost("update")]
+        [HttpPost("update")]
         public async Task<IActionResult> UpdateAsync(AccountUpdateDto accountUpdateDto)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var res = _service.AccountUpdateAsync(accountUpdateDto);
-                    *//*SendToPhoneNumberDto sendToPhoneNumberDto = new SendToPhoneNumberDto()
+                    var res = await _service.AccountUpdateAsync(accountUpdateDto);
+                    if (res == "false")
                     {
-                        PhoneNumber = accountLoginDto.PhoneNumber,
-                    };
-                    bool res = await _verify.SendCodeAsync(sendToPhoneNumberDto);
-                    if (res)
-                    {
-                        TempData["tel"] = accountLoginDto.PhoneNumber;
-
-                        return RedirectToAction("VerifyPhoneNumber", "verify", new { area = "" });
+                        return await Update();
                     }
                     else
                     {
-                        return Login();
-                    }*//*
+                        HttpContext.Response.Cookies.Append("X-Access-Token", res, new CookieOptions()
+                        {
+                            HttpOnly = true,
+                            SameSite = SameSiteMode.Strict
+                        });
+                        return RedirectToAction("index", "home", new { area = "" });
+                    }
                 }
                 catch (ModelErrorException modelError)
                 {
@@ -159,7 +167,7 @@ namespace TwistFood.Web.Controllers
                 }
             }
             else return Login();
-        }*/
+        }
     }
     
 }
