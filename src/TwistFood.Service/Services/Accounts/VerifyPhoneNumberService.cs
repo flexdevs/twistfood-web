@@ -1,19 +1,12 @@
 ﻿
 using Microsoft.Extensions.Caching.Memory;
 using RestSharp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using TwistFood.DataAccess.Interfaces;
 using TwistFood.Domain.Exceptions;
 using TwistFood.Service.Common.Exceptions;
 using TwistFood.Service.Dtos;
-using TwistFood.Service.Dtos.Account;
 using TwistFood.Service.Dtos.Accounts;
-using TwistFood.Service.Interfaces;
 using TwistFood.Service.Interfaces.Accounts;
 
 namespace TwistFood.Service.Services.Accounts
@@ -32,7 +25,7 @@ namespace TwistFood.Service.Services.Accounts
         }
         public async Task<bool> SendCodeAsync(SendToPhoneNumberDto sendToPhoneNumberDto)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(x=> x.PhoneNumber== sendToPhoneNumberDto.PhoneNumber);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.PhoneNumber == sendToPhoneNumberDto.PhoneNumber);
             if (user is null) { throw new ModelErrorException(nameof(sendToPhoneNumberDto.PhoneNumber), "Bunday telefon raqam bilan foydalanuvchi mavjud emas!"); }
             Random r = new Random();
             int code = r.Next(1000, 9999);
@@ -49,7 +42,7 @@ namespace TwistFood.Service.Services.Accounts
             IRestResponse response = client.Execute(request);
             if (response.Content.ToString().Substring(11, 5) == "error")
             {
-                throw new  ModelErrorException(nameof(sendToPhoneNumberDto.PhoneNumber), "We are unable to send messages to this company at this time");
+                throw new ModelErrorException(nameof(sendToPhoneNumberDto.PhoneNumber), "We are unable to send messages to this company at this time");
             }
             return true;
         }
@@ -63,7 +56,7 @@ namespace TwistFood.Service.Services.Accounts
 
                 else
                 {
-                    return await _accountService.AccountLoginAsync(new AccountLoginDto() { PhoneNumber= verifyPhoneNumberDto.PhoneNumber });  
+                    return await _accountService.AccountLoginAsync(new AccountLoginDto() { PhoneNumber = verifyPhoneNumberDto.PhoneNumber });
                 }
             }
             else

@@ -1,22 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
+﻿using System.Data.Entity;
+using System.Diagnostics;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using TwistFood.DataAccess.Interfaces;
 using TwistFood.Domain.Common;
 using TwistFood.Domain.Entities.Order;
 using TwistFood.Domain.Enums;
 using TwistFood.Domain.Exceptions;
-using TwistFood.Service.Common.Helpers;
 using TwistFood.Service.Common.Utils;
 using TwistFood.Service.Dtos.Orders;
 using TwistFood.Service.Interfaces.Common;
 using TwistFood.Service.Interfaces.Orders;
-using TwistFood.Service.Services.Common;
 using TwistFood.Service.ViewModels.Orders;
 
 namespace TwistFood.Service.Services.Orders
@@ -47,56 +40,32 @@ namespace TwistFood.Service.Services.Orders
 
         public async Task<PagedList<OrderViewModel>> GetAllAsync(PagenationParams @params)
         {
-            var query = _unitOfWork.Orders.GetAll().Where(x => x.Status != OrderStatus.New)
-          .OrderByDescending(x => x.Id);
 
-            var res = await PagedList<Order>.ToPagedListAsync(query,
-                @params);
-            if (res is null) { throw new StatusCodeException(HttpStatusCode.NotFound, "Orders not found"); }
+            var query = (from order in _unitOfWork.Orders.Where(x => x.Status != OrderStatus.New && x.Status != OrderStatus.Successful && x.TotalSum > 0).OrderByDescending(x => x.CreatedAt)
+                        let userPhone = _unitOfWork.Users.GetAll().FirstOrDefault(x => x.Id == order.UserId).PhoneNumber
+                        let orderDetails = (from orderDetail in _unitOfWork.OrderDetails.GetAll().Where(x=>x.OrderId==order.Id)
+                                            join product in _unitOfWork.Products.GetAll() on orderDetail.ProductId equals product.Id
+                                            select product.ProductName).ToList()
+                        select new OrderViewModel()
+                        {
+                            Id = order.Id,
+                            CreatedAt = order.CreatedAt,
+                            paymentType = order.PaymentType.ToString(),
+                            Status = order.Status.ToString(),
+                            TotalSum = order.TotalSum,
+                            UserPhoneNumber = userPhone,
+                            deliverId = (order.DeliverId == null) ? 0 : order.DeliverId.Value,
+                            operatorId = (order.OperatorId == null) ? 0 : order.OperatorId.Value,
+                            OrderDetails = orderDetails,
+                            UpdatedAt = order.UpdatedAt
+                        }).AsNoTracking();
 
-            List<OrderViewModel> result = new List<OrderViewModel>();   
-            foreach (var order in res)
-            {
-                OrderViewModel orderViewModel = new OrderViewModel()
-                {
-                    Id = order.Id,  
-                    CreatedAt= order.CreatedAt, 
-                    paymentType= order.PaymentType.ToString(),
-                    Status= order.Status.ToString(),   
-                    TotalSum= order.TotalSum, 
-                    UpdatedAt= order.UpdatedAt
-                };
-                var user = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.Id == order.UserId);
-                
-                if(order.OperatorId is not null)
-                {
-                    orderViewModel.operatorId = (long)order.OperatorId;
-                }
-
-                if (order.DeliverId is not null)
-                {
-                    orderViewModel.deliverId = (long)order.DeliverId;
-                }
-
-                orderViewModel.UserPhoneNumber = user!.PhoneNumber;
-                string orderDetails = "";
-                var orderd = _unitOfWork.OrderDetails.GetAll(order.Id).AsNoTracking().ToList();
-                if(orderd is not null)
-                    foreach (var item in orderd)
-                    {
-                        var pr = await _unitOfWork.Products.FindByIdAsync(item.ProductId);
-                        orderDetails += pr!.ProductName + ", ";
-                    }
-
-                orderViewModel.OrderDetails = orderDetails; 
-                result.Add(orderViewModel); 
-            }
-            return await PagedList<OrderViewModel>.ListToPagedListAsync(result,@params);
+            return await PagedList<OrderViewModel>.ToPagedListAsync(query, @params);
         }
 
         public async Task<OrderWithOrderDetailsViewModel> GetOrderWithOrderDetailsAsync(long id)
         {
-          var order = await _unitOfWork.Orders.FindByIdAsync(id);
+            var order = await _unitOfWork.Orders.FindByIdAsync(id);
             if (order is null) { throw new StatusCodeException(HttpStatusCode.NotFound, "Order not found"); }
 
             OrderWithOrderDetailsViewModel orderDetailsViewModel = new OrderWithOrderDetailsViewModel()
@@ -112,9 +81,9 @@ namespace TwistFood.Service.Services.Orders
 
             orderDetailsViewModel.UserPhoneNumber = user!.PhoneNumber;
 
-            List<OrderDetailForAdminViewModel> list = new List<OrderDetailForAdminViewModel>();     
-            
-            var orderDetails =  _unitOfWork.OrderDetails.GetAll(id).AsNoTracking().ToList();
+            List<OrderDetailForAdminViewModel> list = new List<OrderDetailForAdminViewModel>();
+
+            var orderDetails = _unitOfWork.OrderDetails.GetAll(id).AsNoTracking().ToList();
             foreach (var orderDetail in orderDetails)
             {
 
@@ -122,23 +91,23 @@ namespace TwistFood.Service.Services.Orders
                 {
                     Id = orderDetail.Id,
                     Amount = orderDetail.Amount,
-                    
+
                     Price = orderDetail.Price,
                 };
                 var product = await _unitOfWork.Products.FindByIdAsync(orderDetail.ProductId);
 
 
-                
+
                 detailsViewModel.ProductName = product!.ProductName;
                 detailsViewModel.ProductImagePath = product.ImagePath;
                 detailsViewModel.ProductId = product.Id;
 
-                
+
                 list.Add(detailsViewModel);
             }
-            orderDetailsViewModel.OrderDetails = list;  
+            orderDetailsViewModel.OrderDetails = list;
 
-            return orderDetailsViewModel;   
+            return orderDetailsViewModel;
 
 
         }
@@ -147,7 +116,7 @@ namespace TwistFood.Service.Services.Orders
         {
             var user = await _unitOfWork.Users.FindByIdAsync(_identityService.Id!.Value);
             if (user == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "User not found"); }
-            Location location = new Location() { Latitude = dto.Latitude, Longitude = dto.Longitude }; 
+            Location location = new Location() { Latitude = dto.Latitude, Longitude = dto.Longitude };
             _unitOfWork.Locations.Add(location);
             await _unitOfWork.SaveChangesAsync();
             var Ilocation = await _unitOfWork.Locations.FirstOrDefaultAsync(x => x.Latitude == location.Latitude && x.Longitude == location.Longitude);
@@ -162,16 +131,16 @@ namespace TwistFood.Service.Services.Orders
 
             var returnOrder = await _unitOfWork.Orders.FirstOrDefaultAsync(x => x.UserId == order.UserId && x.CreatedAt == order.CreatedAt);
             if (returnOrder == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "Order not found"); }
-            return  returnOrder.Id;
+            return returnOrder.Id;
         }
 
         public async Task<bool> OrderUpdateAsync(OrderUpdateDto dto)
         {
-            
+
             var order = await _unitOfWork.Orders.FindByIdAsync(dto.OrderId);
             if (order == null) { throw new StatusCodeException(HttpStatusCode.NotFound, "Order not found"); }
 
-            if(dto.Status is not null)
+            if (dto.Status is not null)
             {
                 order.Status = (OrderStatus)dto.Status;
             }
@@ -192,10 +161,10 @@ namespace TwistFood.Service.Services.Orders
             {
                 order.DeliveredAt = dto.DeliveredAt.Value.ToUniversalTime();
             }
-            if (dto.TotalSum is not null) 
+            if (dto.TotalSum is not null)
             {
-                order.TotalSum = dto.TotalSum.Value;    
-            } 
+                order.TotalSum = dto.TotalSum.Value;
+            }
             order.UpdatedAt = DateTime.UtcNow;
             _unitOfWork.Orders.Update(order.Id, order);
             await _unitOfWork.SaveChangesAsync();
@@ -204,6 +173,6 @@ namespace TwistFood.Service.Services.Orders
 
         }
 
-     
+
     }
 }

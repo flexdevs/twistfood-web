@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
-using TwistFood.Domain.Entities.Categories;
 using TwistFood.Service.Common.Utils;
 using TwistFood.Service.Dtos;
-using TwistFood.Service.Dtos.Products;
 using TwistFood.Service.Interfaces.Categories;
 using TwistFood.Service.ViewModels.Categories;
 
@@ -20,11 +17,11 @@ namespace TwistFood.Web.Areas.Admin.Controllers
 
         public CategoriesController(ICategoryService categoryService)
         {
-                _categoryService=categoryService;
+            _categoryService = categoryService;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            var res = await _categoryService.GetAllAsync(new PagenationParams(1));
+            var res = await _categoryService.GetAllAsync(new PagenationParams(page, 2));
 
             return View(res);
         }
@@ -86,14 +83,14 @@ namespace TwistFood.Web.Areas.Admin.Controllers
             }
             return View();
         }
-        
+
         [HttpPost("delete")]
         public async Task<IActionResult> DeleteAsync(long Id)
         {
-            var res= await _categoryService.DeleteAsync(Id); 
-            if(res) 
-                return RedirectToAction("Index", "categories", new { area= "admin"});
+            var res = await _categoryService.DeleteAsync(Id);
+            if (res)
+                return RedirectToAction("Index", "categories", new { area = "admin" });
             return View();
         }
-     }
+    }
 }

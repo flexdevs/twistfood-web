@@ -1,10 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TwistFood.Domain.Entities.Employees;
 using TwistFood.Service.Attributes;
 using TwistFood.Service.Common.Attributes;
@@ -46,7 +41,7 @@ namespace TwistFood.Service.Dtos.Operators
                 BirthDate = dto.BirthDate.ToUniversalTime(),
                 Salary = dto.Salary,
                 PassportSeriaNumber = dto.PassportSeriaNumber,
-                Email= dto.Email,
+                Email = dto.Email,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
             };

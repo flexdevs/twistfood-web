@@ -6,8 +6,9 @@ using TwistFood.Service.Interfaces.Products;
 
 namespace TwistFood.Web.Areas.Admin.Controllers
 {
-    [Authorize(Roles ="head")]
+    [Authorize(Roles = "head")]
     [Area("admin")]
+    [Route("admins")]
     public class ProductsController : Controller
     {
         private readonly IProductService _productService;
@@ -16,10 +17,10 @@ namespace TwistFood.Web.Areas.Admin.Controllers
         {
             _productService = productService;
         }
-        
-        public async Task<ViewResult> Index()
+
+        public async Task<ViewResult> Index(int page = 1)
         {
-            var res = await _productService.GetAllAsync(new PagenationParams(1));
+            var res = await _productService.GetAllAsync(new PagenationParams(page, 3));
             return View(res);
         }
 
@@ -32,7 +33,7 @@ namespace TwistFood.Web.Areas.Admin.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> CreateAsync(CreateProductsDto productsDto)
         {
-            if(ModelState.IsValid) 
+            if (ModelState.IsValid)
             {
                 var result = await _productService.CreateProductAsync(productsDto);
                 if (result)
@@ -43,25 +44,25 @@ namespace TwistFood.Web.Areas.Admin.Controllers
         }
 
         [HttpGet("update")]
-        public async Task<ViewResult> Update(long productId) 
+        public async Task<ViewResult> Update(long productId)
         {
-            var product = await _productService.GetForUpdateAsync(productId);  
+            var product = await _productService.GetForUpdateAsync(productId);
             if (product != null)
             {
-               
-                return View(product);   
+
+                return View(product);
             }
             return View();
         }
         [HttpPost("update")]
-        public async Task<IActionResult> UpdateAsync(long Id,UpdateProductDto updateProductDto)
+        public async Task<IActionResult> UpdateAsync(long Id, UpdateProductDto updateProductDto)
         {
             if (ModelState.IsValid)
             {
                 var result = await _productService.UpdateAsync(Id, updateProductDto);
                 if (result)
                 {
-                    return RedirectToAction("Index","products",new {area= "admin"});
+                    return RedirectToAction("Index", "products", new { area = "admin" });
                 }
                 return await Update(Id);
             }

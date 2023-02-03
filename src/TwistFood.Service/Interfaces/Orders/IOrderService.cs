@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity.Migrations.Builders;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TwistFood.Domain.Entities.Order;
-using TwistFood.Service.Common.Utils;
+﻿using TwistFood.Service.Common.Utils;
 using TwistFood.Service.Dtos.Orders;
 using TwistFood.Service.ViewModels.Orders;
 

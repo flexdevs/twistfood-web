@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 using TwistFood.Service.Common.Utils;
-using TwistFood.Service.Dtos;
 using TwistFood.Service.Dtos.Orders;
 using TwistFood.Service.Interfaces.Orders;
 using TwistFood.Service.Interfaces.Products;
-using TwistFood.Service.ViewModels.Categories;
 using TwistFood.Service.ViewModels.Orders;
 using TwistFood.Service.ViewModels.Products;
 
@@ -22,32 +19,32 @@ namespace TwistFood.Web.Areas.Admin.Controllers
         private readonly IOrderDeteilsService _orderDetailService;
         private readonly IProductService _productService;
 
-        public OrdersController(IOrderService orderService,IOrderDeteilsService orderDeteilsService, IProductService productService) 
+        public OrdersController(IOrderService orderService, IOrderDeteilsService orderDeteilsService, IProductService productService)
         {
             _orderService = orderService;
             _orderDetailService = orderDeteilsService;
-            _productService= productService;
+            _productService = productService;
         }
-        
 
-        public async Task<ViewResult> Index()
+
+        public async Task<ViewResult> Index(int page = 1)
         {
-            var result = await _orderService.GetAllAsync(new PagenationParams(1));
+            var result = await _orderService.GetAllAsync(new PagenationParams(page, 10));
             return View(result);
         }
 
         [HttpGet("create")]
-        public async Task<IActionResult> Create(long OrderId,int page =1)
+        public async Task<IActionResult> Create(long OrderId, int page = 1)
         {
             var products = await _productService.GetAllAsync(new PagenationParams(page));
             var tuple = new Tuple<long, List<ProductViewModel>>(OrderId, products.ToList());
-            return View(tuple);  
+            return View(tuple);
 
         }
 
         [HttpGet("create-order")]
 
-        public async Task<IActionResult> CreateOrderAsync(long OrderId,long productId)
+        public async Task<IActionResult> CreateOrderAsync(long OrderId, long productId)
         {
             OrderDeteilsCreateDto orderDeteils = new OrderDeteilsCreateDto()
             {
@@ -55,10 +52,10 @@ namespace TwistFood.Web.Areas.Admin.Controllers
                 Amount = 1,
                 Price = 0,
             };
-           var res= await  _orderDetailService.OrderCreateAsync(OrderId, orderDeteils);
-            var routeData = new RouteValueDictionary { { "Id", OrderId }};
+            var res = await _orderDetailService.OrderCreateAsync(OrderId, orderDeteils);
+            var routeData = new RouteValueDictionary { { "Id", OrderId } };
             if (res)
-                return RedirectToAction("UpdateTable", "orders",routeData);
+                return RedirectToAction("UpdateTable", "orders", routeData);
             return View("index");
         }
 
@@ -92,14 +89,14 @@ namespace TwistFood.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-               OrderDetailUpdateDto orderDetail = new OrderDetailUpdateDto()
-               {
-                   OrderDetailId= Id,
-                   Amount= order.Amount,
-                   Price= order.Price,
-                   ProductId = order.ProductId  
-               };
-                
+                OrderDetailUpdateDto orderDetail = new OrderDetailUpdateDto()
+                {
+                    OrderDetailId = Id,
+                    Amount = order.Amount,
+                    Price = order.Price,
+                    ProductId = order.ProductId
+                };
+
                 var result = await _orderDetailService.OrderUpdateAsync(orderDetail);
                 if (result)
                 {

@@ -1,9 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TwistFood.Service.Common.Helpers
 {
@@ -27,7 +22,7 @@ namespace TwistFood.Service.Common.Helpers
         private static bool IsUserOrAdmin()
         {
             var claim = (HttpContext?.User?.Claims.FirstOrDefault(x => x.Type.Contains("role")));
-            return claim is null ? true : false; 
+            return claim is null ? true : false;
         }
     }
 }

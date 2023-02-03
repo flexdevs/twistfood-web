@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Caching.Memory;
-using TwistFood.Domain.Enums;
 using TwistFood.Service.Interfaces.Common;
 using TwistFood.Service.Interfaces.Orders;
 
@@ -22,10 +20,10 @@ namespace TwistFood.Web.ViewComponents
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            if(_cache.TryGetValue(_identityService.Id!.Value, out long orderId))
+            if (_cache.TryGetValue(_identityService.Id!.Value, out long orderId))
             {
                 var res = await _orderService.GetOrderWithOrderDetailsAsync(orderId);
-                if(res.Status == "New")
+                if (res.Status == "New")
                 {
                     return View(res.OrderDetails.Count);
                 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace TwistFood.Service.Attributes
 {
@@ -14,14 +9,14 @@ namespace TwistFood.Service.Attributes
         {
             if (value is not null)
             {
-               var  price = (double)value;  
+                var price = (double)value;
                 if (price > 0)
                     return ValidationResult.Success;
                 return new ValidationResult($"Amount of money is a positive number!");
             }
             return ValidationResult.Success;
 
-            
+
         }
     }
 }

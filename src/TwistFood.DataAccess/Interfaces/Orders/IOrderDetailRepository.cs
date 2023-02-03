@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TwistFood.Domain.Entities.Order;
+﻿using TwistFood.Domain.Entities.Order;
 
 namespace TwistFood.DataAccess.Interfaces.Orders
 {
-    public interface IOrderDetailRepository : IRepository<OrderDetail>
+    public interface IOrderDetailRepository : IGenericRepository<OrderDetail>
     {
         IQueryable<OrderDetail> GetAll(long orderId);
     }

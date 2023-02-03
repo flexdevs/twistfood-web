@@ -1,5 +1,4 @@
-﻿using OnlineMarket.Domain.Common;
-using TwistFood.Domain.Common;
+﻿using TwistFood.Domain.Common;
 using TwistFood.Domain.Entities.Discounts;
 using TwistFood.Domain.Entities.Employees;
 using TwistFood.Domain.Entities.Users;

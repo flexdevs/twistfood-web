@@ -1,26 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Globalization;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net;
 using TwistFood.DataAccess.Interfaces;
-using TwistFood.DataAccess.Repositories;
 using TwistFood.Domain.Entities.Discounts;
-using TwistFood.Domain.Entities.Products;
 using TwistFood.Domain.Exceptions;
 using TwistFood.Service.Common.Utils;
 using TwistFood.Service.Dtos;
 using TwistFood.Service.Dtos.Discounts;
-using TwistFood.Service.Dtos.Products;
 using TwistFood.Service.Interfaces;
-using TwistFood.Service.Interfaces.Common;
 using TwistFood.Service.Interfaces.Discounts;
 using TwistFood.Service.ViewModels.Discounts;
-using TwistFood.Service.ViewModels.Products;
 
 namespace TwistFood.Service.Services.Discounts
 {
@@ -29,7 +16,7 @@ namespace TwistFood.Service.Services.Discounts
         private readonly IUnitOfWork _unitOfWork;
         private readonly IFileService _fileService;
 
-        public DiscountService(IUnitOfWork unitOfWork, 
+        public DiscountService(IUnitOfWork unitOfWork,
                                IFileService fileService)
         {
             _unitOfWork = unitOfWork;
@@ -71,7 +58,7 @@ namespace TwistFood.Service.Services.Discounts
         public async Task<PagedList<DiscountViewModel>> GetAllAsync(PagenationParams @params)
         {
             var query = _unitOfWork.Discounts.GetAll()
-            .OrderBy(x => x.Id).ThenByDescending(x => x.Price).Select(discount=>new DiscountViewModel()
+            .OrderBy(x => x.Id).ThenByDescending(x => x.Price).Select(discount => new DiscountViewModel()
             {
                 Id = discount.Id,
                 DiscountName = discount.DiscountName,
@@ -82,7 +69,7 @@ namespace TwistFood.Service.Services.Discounts
                 ImagePath = discount.ImagePath,
             });
 
-            return await PagedList<DiscountViewModel>.ToPagedListAsync(query,@params);
+            return await PagedList<DiscountViewModel>.ToPagedListAsync(query, @params);
         }
 
         public async Task<DiscountViewModel> GetAsync(long id)
@@ -109,7 +96,7 @@ namespace TwistFood.Service.Services.Discounts
         public async Task<bool> UpdateAsync(long id, DiscountUpdateDto discountUpdateDto)
         {
             var res = await _unitOfWork.Discounts.FindByIdAsync(id);
-            if(res is not null)
+            if (res is not null)
             {
                 _unitOfWork.Entry(res).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
 

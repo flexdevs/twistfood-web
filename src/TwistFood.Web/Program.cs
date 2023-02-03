@@ -1,32 +1,25 @@
+using Microsoft.EntityFrameworkCore;
+using System.Net;
+using TwistFood.Api.DbContexts;
 using TwistFood.DataAccess.Interfaces;
 using TwistFood.DataAccess.Repositories;
+using TwistFood.Service.Interfaces;
 using TwistFood.Service.Interfaces.Accounts;
-using TwistFood.Service.Interfaces.Admins;
 using TwistFood.Service.Interfaces.Categories;
 using TwistFood.Service.Interfaces.Common;
-using TwistFood.Service.Interfaces.Delivers;
 using TwistFood.Service.Interfaces.Discounts;
-using TwistFood.Service.Interfaces.Operators;
 using TwistFood.Service.Interfaces.Orders;
 using TwistFood.Service.Interfaces.Products;
-using TwistFood.Service.Interfaces;
 using TwistFood.Service.Security;
+using TwistFood.Service.Services;
 using TwistFood.Service.Services.Accounts;
-using TwistFood.Service.Services.Admins;
 using TwistFood.Service.Services.Categories;
 using TwistFood.Service.Services.Common;
-using TwistFood.Service.Services.Delivers;
 using TwistFood.Service.Services.Discounts;
-using TwistFood.Service.Services.Operators;
 using TwistFood.Service.Services.Orders;
 using TwistFood.Service.Services.Products;
-using TwistFood.Service.Services;
-using Microsoft.EntityFrameworkCore;
-using TwistFood.Api.DbContexts;
-using System.Net;
-using TwistFood.Web.Middlewares;
 using TwistFood.Web.Configurations.LayerConfigarions;
-using TwistFood.Service.Dtos.Accounts;
+using TwistFood.Web.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddWeb(builder.Configuration);
@@ -47,7 +40,7 @@ builder.Services.AddScoped<IIdentityService, IdentityService>();
 builder.Services.AddScoped<IVerifyPhoneNumberService, VerifyPhoneNumberService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IOrderDeteilsService, OrderDeteilService>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();	
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IDiscountService, DiscountService>();
 
 
@@ -56,9 +49,9 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-	app.UseExceptionHandler("/Home/Error");
-	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-	app.UseHsts();
+    app.UseExceptionHandler("/Home/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
 }
 
 app.UseHttpsRedirection();
@@ -82,7 +75,7 @@ app.MapAreaControllerRoute(
     pattern: "admins/{controller=products}/{action=Index}");
 
 app.MapControllerRoute(
-	name: "default",
+    name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 

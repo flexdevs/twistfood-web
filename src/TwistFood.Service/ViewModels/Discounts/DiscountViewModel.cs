@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TwistFood.Service.ViewModels.Discounts
+﻿namespace TwistFood.Service.ViewModels.Discounts
 {
     public class DiscountViewModel
     {

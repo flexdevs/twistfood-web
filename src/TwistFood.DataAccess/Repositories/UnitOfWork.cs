@@ -1,10 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity.Infrastructure;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TwistFood.Api.DbContexts;
 using TwistFood.DataAccess.Interfaces;
 using TwistFood.DataAccess.Interfaces.Categories;

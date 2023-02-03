@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TwistFood.Service.Dtos.Orders;
+﻿using TwistFood.Service.Dtos.Orders;
 using TwistFood.Service.ViewModels.Orders;
 
 namespace TwistFood.Service.Interfaces.Orders
