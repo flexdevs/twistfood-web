@@ -16,7 +16,7 @@ namespace TwistFood.Web.Controllers
         private readonly IVerifyPhoneNumberService _verify;
         private readonly IIdentityService _identityService;
 
-        public AccountsController(IAccountService acccountService, 
+        public AccountsController(IAccountService acccountService,
                                   IVerifyPhoneNumberService verifyPhoneNumberService,
                                   IIdentityService identityService)
         {

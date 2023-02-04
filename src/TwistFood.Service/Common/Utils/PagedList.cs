@@ -4,11 +4,11 @@ namespace TwistFood.Service.Common.Utils
 {
     public class PagedList<T> : List<T>
     {
-        public PaginationMetaData MetaData { get; set; } = default!;
+        public PagenationMetaData MetaData { get; set; } = default!;
 
         public PagedList(List<T> items, int count, PagenationParams @params)
         {
-            MetaData = new PaginationMetaData(count, @params.PageSize, @params.PageNumber);
+            MetaData = new PagenationMetaData(count, @params.PageSize, @params.PageNumber);
             AddRange(items);
         }
         public async static Task<PagedList<T>> ToPagedListAsync(IQueryable<T> query, PagenationParams @params)

@@ -4,7 +4,6 @@ using TwistFood.Domain.Entities.Phones;
 using TwistFood.Domain.Entities.Users;
 using TwistFood.Domain.Exceptions;
 using TwistFood.Service.Common.Exceptions;
-using TwistFood.Service.Common.Helpers;
 using TwistFood.Service.Common.Utils;
 using TwistFood.Service.Dtos;
 using TwistFood.Service.Dtos.Account;
@@ -26,7 +25,7 @@ namespace TwistFood.Service.Services.Accounts
         }
 
 
-        public AccountService(IUnitOfWork unitOfWork, 
+        public AccountService(IUnitOfWork unitOfWork,
                               IAuthManager authManager,
                               IIdentityService identityService)
         {
@@ -111,6 +110,16 @@ namespace TwistFood.Service.Services.Accounts
             {
                 return "false";
             }
+        }
+
+        public async Task<bool> DeleteAsync(long id)
+        {
+            var user = await _unitOfWork.Users.FindByIdAsync(id);
+            if (user is null) throw new StatusCodeException(HttpStatusCode.NotFound, "User not found");
+            _unitOfWork.Users.Delete(user.Id);
+            var res = await _unitOfWork.SaveChangesAsync();
+
+            return res > 0;
         }
 
         public async Task<PagedList<User>> GetAllAsync(PagenationParams @params)
