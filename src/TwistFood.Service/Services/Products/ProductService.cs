@@ -96,32 +96,23 @@ namespace TwistFood.Service.Services.Products
             return await PagedList<ProductViewModel>.ToPagedListAsync(query, @params);
         }
 
-        public async Task<IEnumerable<ProductViewModel>> SearchByNameAsync(string name)
+        public async Task<PagedList<ProductViewModel>> SearchByNameAsync(string name, PagenationParams @params)
         {
-            var res = await _unitOfWork.Products.Where(x => x.ProductName.ToLower().StartsWith(name.ToLower()))
-                                            .OrderBy(x => x.Id).ThenByDescending(x => x.Price)
-                                            .ToListAsync();
 
-            if (res is not null)
-            {
-                List<ProductViewModel> result = new List<ProductViewModel>();
-
-                foreach (var product in res)
+            var res =  _unitOfWork.Products.Where(x => x.ProductName.ToLower().Contains(name.ToLower())).Select(
+                product => new ProductViewModel()
                 {
-                    ProductViewModel productViewModel = new ProductViewModel()
-                    {
-                        Id = product.Id,
-                        ProductName = product.ProductName,
-                        ProductDescription = product.ProductDescription,
-                        Price = product.Price,
-                        ImagePath = "http://twistfood.uz:5055/" + product.ImagePath,
-                    };
+                    Id = product.Id,
+                    ProductName = product.ProductName,
+                    ProductDescription = product.ProductDescription,
+                    Price = product.Price,
+                    ImagePath = product.ImagePath
+                });
+                                           
 
-                    result.Add(productViewModel);
-                }
-                return result;
-            }
-            else throw new StatusCodeException(HttpStatusCode.NotFound, "Product not found");
+            
+                return await PagedList<ProductViewModel>.ToPagedListAsync(res, @params);
+           
         }
 
         public async Task<ProductViewModel> GetAsync(long id)

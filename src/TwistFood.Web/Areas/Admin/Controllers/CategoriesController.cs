@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TwistFood.Domain.Entities.Categories;
 using TwistFood.Service.Common.Utils;
 using TwistFood.Service.Dtos;
 using TwistFood.Service.Interfaces.Categories;
@@ -19,11 +20,19 @@ namespace TwistFood.Web.Areas.Admin.Controllers
         {
             _categoryService = categoryService;
         }
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(string search,int page = 1)
         {
-            var res = await _categoryService.GetAllAsync(new PagenationParams(page, 2));
-
-            return View(res);
+            PagedList<Category> result;
+            if (!String.IsNullOrEmpty(search))
+            {
+                ViewBag.search = search;
+                result = await _categoryService.GetAllBySearchAsync(search, new PagenationParams(page, 2));
+            }
+            else
+            {
+                result = await _categoryService.GetAllAsync(new PagenationParams(page, 2));
+            }
+            return View(result);
         }
 
         [HttpGet("create")]

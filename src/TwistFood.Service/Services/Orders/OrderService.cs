@@ -62,6 +62,30 @@ namespace TwistFood.Service.Services.Orders
             return await PagedList<OrderViewModel>.ToPagedListAsync(query, @params);
         }
 
+        public async Task<PagedList<OrderViewModel>> GetAllForSearchAsync(string search, PagenationParams @params)
+        {
+            var query = (from order in _unitOfWork.Orders.Where(x => x.Status != OrderStatus.New && x.Status != OrderStatus.Successful && x.TotalSum > 0).OrderByDescending(x => x.CreatedAt)
+                         let userPhone = _unitOfWork.Users.GetAll().FirstOrDefault(x => x.Id == order.UserId).PhoneNumber
+                         let orderDetails = (from orderDetail in _unitOfWork.OrderDetails.GetAll().Where(x => x.OrderId == order.Id)
+                                             join product in _unitOfWork.Products.GetAll() on orderDetail.ProductId equals product.Id
+                                             select product.ProductName).ToList()
+                         select new OrderViewModel()
+                         {
+                             Id = order.Id,
+                             CreatedAt = order.CreatedAt,
+                             paymentType = order.PaymentType.ToString(),
+                             Status = order.Status.ToString(),
+                             TotalSum = order.TotalSum,
+                             UserPhoneNumber = userPhone,
+                             deliverId = (order.DeliverId == null) ? 0 : order.DeliverId.Value,
+                             operatorId = (order.OperatorId == null) ? 0 : order.OperatorId.Value,
+                             OrderDetails = orderDetails,
+                             UpdatedAt = order.UpdatedAt
+                         }).Where(x=>x.UserPhoneNumber.Contains(search)).AsNoTracking();
+
+            return await PagedList<OrderViewModel>.ToPagedListAsync(query, @params);
+        }
+
         public async Task<OrderWithOrderDetailsViewModel> GetOrderWithOrderDetailsAsync(long id)
         {
             var order = await _unitOfWork.Orders.FindByIdAsync(id);

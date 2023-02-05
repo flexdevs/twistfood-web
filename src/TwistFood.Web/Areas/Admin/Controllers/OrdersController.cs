@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TwistFood.Domain.Entities.Categories;
 using TwistFood.Service.Common.Utils;
 using TwistFood.Service.Dtos.Orders;
 using TwistFood.Service.Interfaces.Orders;
@@ -27,9 +28,18 @@ namespace TwistFood.Web.Areas.Admin.Controllers
         }
 
 
-        public async Task<ViewResult> Index(int page = 1)
+        public async Task<ViewResult> Index(string search,int page = 1)
         {
-            var result = await _orderService.GetAllAsync(new PagenationParams(page, 10));
+            PagedList<OrderViewModel> result;
+            if (!String.IsNullOrEmpty(search))
+            {
+                ViewBag.search = search;
+                result = await _orderService.GetAllForSearchAsync(search, new PagenationParams(page, 10));
+            }
+            else
+            {
+                result = await _orderService.GetAllAsync(new PagenationParams(page, 10));
+            }
             return View(result);
         }
 
