@@ -114,5 +114,14 @@ namespace TwistFood.Service.Services.Categories
             }
             else throw new StatusCodeException(HttpStatusCode.NotFound, "category not found");
         }
+
+        public async Task<PagedList<Category>> GetAllBySearchAsync(string search, PagenationParams @params)
+        {
+            var query = _unitOfWork.Categories.GetAll().Where(x=>x.CategoryName.ToLower().Contains(search.ToLower()))
+          .OrderBy(x => x.Id);
+
+            return await PagedList<Category>.ToPagedListAsync(query,
+                @params);
+        }
     }
 }

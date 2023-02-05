@@ -4,12 +4,15 @@
 @model PagedList<User>
 
 <div class="col-md-12 mx-4 me-4 mt-4 mb-4 pt-2 pb-2 pe-4 px-4">
-    <h3 class="title-5 text-center mt-2">Products</h3>
+    <h3 class="title-5 text-center mt-2">Users</h3>
     <div class="table-data__tool">
         <div class="d-flex justify-content-end mt-4 mb-4 me-3">
-            <a class="btn btn-active" asp-area="admin" asp-controller="users" asp-action="create" style="background:lightgreen;">
-                Add item
-            </a>
+           <div>
+                <form class="d-flex mt-4 mb-4 mx-5" asp-area="admin" asp-controller="users" asp-action="index" method="get">
+                    <input class="form-control" name="search" type="search" value="@ViewBag.search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-primary mx-2" type="submit">Search</button>
+                </form>
+            </div>
         </div>
     </div>
     <table class="table table-bordered">
@@ -54,4 +57,4 @@
         </tbody>
     </table>
 </div>
-@await Component.InvokeAsync("Pagination",new Tuple<string,string,string,PagenationMetaData>("users","index","admin",Model.MetaData))
+@await Component.InvokeAsync("Pagination",new Tuple<string,string,string,string,PagenationMetaData>("users","index","admin",ViewBag.search,Model.MetaData))

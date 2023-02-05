@@ -36,13 +36,10 @@
                         <a class="btn btn-secondary" asp-area="admin" asp-controller="products" asp-action="index">Products</a>
                     </li>
                     <li class="mx-3 ">
-                        <a class="btn btn-secondary"  asp-controller="products" asp-action="index">Users</a>
+                        <a class="btn btn-secondary"  asp-controller="users" asp-action="index">Users</a>
                     </li>
                 </ul>
-                <form class="d-flex" >
-                    <input class="form-control" style="width:250px" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-primary mx-2" type="submit">Search</button>
-                </form>
+                
                 <div >
                     @await Component.InvokeAsync("IdentityAdmin")
 

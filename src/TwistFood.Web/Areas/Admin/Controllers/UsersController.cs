@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TwistFood.Domain.Entities.Users;
 using TwistFood.Service.Common.Utils;
 using TwistFood.Service.Interfaces.Accounts;
+using TwistFood.Service.ViewModels.Products;
 
 namespace TwistFood.Web.Areas.Admin.Controllers
 {
@@ -17,11 +19,20 @@ namespace TwistFood.Web.Areas.Admin.Controllers
             _accountService = accountService;
         }
 
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(string search,int page = 1)
         {
 
-            var users = await _accountService.GetAllAsync(new PagenationParams(page, 10));
-            return View("index", users);
+            PagedList<User> result;
+            if (!String.IsNullOrEmpty(search))
+            {
+                ViewBag.search = search;
+                result = await _accountService.GetAllForSearchAsync(search, new PagenationParams(page, 10));
+            }
+            else
+            {
+                result = await _accountService.GetAllAsync(new PagenationParams(page, 10));
+            }
+            return View(result);
         }
     }
 }

@@ -6,6 +6,7 @@ using TwistFood.Service.Interfaces.Common;
 using TwistFood.Service.Interfaces.Discounts;
 using TwistFood.Service.Interfaces.Orders;
 using TwistFood.Service.Interfaces.Products;
+using TwistFood.Service.ViewModels.Products;
 
 namespace TwistFood.Web.Controllers;
 
@@ -30,10 +31,19 @@ public class ProductsController : Controller
         this._orderDeteilService = orderDeteilService;
         this._discountService = discountService;
     }
-    public async Task<ViewResult> Index(int page = 1)
+    public async Task<ViewResult> Index(string search,int page = 1)
     {
-        var products = await _productService.GetAllAsync(new PagenationParams(page, _pageSize));
-        return View("Index", products);
+        PagedList<ProductViewModel> result;
+        if (!String.IsNullOrEmpty(search))
+        {
+            ViewBag.search = search;
+            result = await _productService.SearchByNameAsync(search, new PagenationParams(page, 10));
+        }
+        else
+        {
+            result = await _productService.GetAllAsync(new PagenationParams(page, 10));
+        }
+        return View(result);
     }
 
 

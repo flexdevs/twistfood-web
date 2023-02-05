@@ -4,7 +4,14 @@
 <div class="col-md-12 mx-4 me-4 mt-4 mb-4 ">
     <h3 class="title-5 text-center mt-2">Categories</h3>
         <div class="table-data__tool d-flex justify-content-center">
-            <div class="mt-4 mb-4">
+        <div>
+            <form class="d-flex mt-4 mb-4 mx-5" asp-area="admin" asp-controller="categories" asp-action="index" method="get">
+                <input class="form-control"  name="search" type="search" value="@ViewBag.search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-primary mx-2" type="submit">Search</button>
+            </form>
+        </div>
+       
+            <div class="mt-4 mb-4  mx-3">
                 <a class="btn btn-active" asp-area="admin" asp-controller="categories" asp-action="create" style="background:lightgreen;">
                     Add item
                 </a>
@@ -51,6 +58,6 @@
         </table>
     </div>
 
-    @await Component.InvokeAsync("Pagination",new Tuple<string,string,string,PagenationMetaData>("categories","index","admin",Model.MetaData))
+    @await Component.InvokeAsync("Pagination",new Tuple<string,string,string,string,PagenationMetaData>("categories","index","admin",ViewBag.search,Model.MetaData))
    
 </div>

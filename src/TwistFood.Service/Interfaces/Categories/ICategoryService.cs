@@ -10,6 +10,7 @@ namespace TwistFood.Service.Interfaces.Categories
         public Task<bool> CreateCategoryAsync(CategoryDto categoryDto);
 
         public Task<PagedList<Category>> GetAllAsync(PagenationParams @params);
+        public Task<PagedList<Category>> GetAllBySearchAsync(string search, PagenationParams @params); 
 
         public Task<CategoryViewModels> GetAsync(long id);
 

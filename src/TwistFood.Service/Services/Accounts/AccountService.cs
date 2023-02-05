@@ -131,6 +131,16 @@ namespace TwistFood.Service.Services.Accounts
                 @params);
         }
 
+        public async Task<PagedList<User>> GetAllForSearchAsync(string search, PagenationParams @params)
+        {
+            var query = _unitOfWork.Users.GetAll().
+                Where(x => x.FullName.ToLower().Contains(search.ToLower()) || x.PhoneNumber.Contains(search))
+          .OrderBy(x => x.Id);
+
+            return await PagedList<User>.ToPagedListAsync(query,
+                @params);
+        }
+
         public async Task<User> GetAsync(long id)
         {
             var res = await _unitOfWork.Users.FindByIdAsync(id);

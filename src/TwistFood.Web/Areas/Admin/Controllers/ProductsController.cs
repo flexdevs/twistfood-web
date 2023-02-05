@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using TwistFood.Service.Common.Utils;
 using TwistFood.Service.Dtos.Products;
 using TwistFood.Service.Interfaces.Products;
+using TwistFood.Service.ViewModels.Orders;
+using TwistFood.Service.ViewModels.Products;
 
 namespace TwistFood.Web.Areas.Admin.Controllers
 {
@@ -18,10 +20,19 @@ namespace TwistFood.Web.Areas.Admin.Controllers
             _productService = productService;
         }
 
-        public async Task<ViewResult> Index(int page = 1)
+        public async Task<ViewResult> Index(string search,int page = 1)
         {
-            var res = await _productService.GetAllAsync(new PagenationParams(page, 3));
-            return View(res);
+            PagedList<ProductViewModel> result;
+            if (!String.IsNullOrEmpty(search))
+            {
+                ViewBag.search = search;
+                result = await _productService.SearchByNameAsync(search, new PagenationParams(page, 10));
+            }
+            else
+            {
+                result = await _productService.GetAllAsync(new PagenationParams(page, 10));
+            }
+            return View(result);
         }
 
         [HttpGet("create")]
