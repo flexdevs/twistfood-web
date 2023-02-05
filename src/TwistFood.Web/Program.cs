@@ -5,6 +5,7 @@ using TwistFood.DataAccess.Interfaces;
 using TwistFood.DataAccess.Repositories;
 using TwistFood.Service.Interfaces;
 using TwistFood.Service.Interfaces.Accounts;
+using TwistFood.Service.Interfaces.Admins;
 using TwistFood.Service.Interfaces.Categories;
 using TwistFood.Service.Interfaces.Common;
 using TwistFood.Service.Interfaces.Discounts;
@@ -13,6 +14,7 @@ using TwistFood.Service.Interfaces.Products;
 using TwistFood.Service.Security;
 using TwistFood.Service.Services;
 using TwistFood.Service.Services.Accounts;
+using TwistFood.Service.Services.Admins;
 using TwistFood.Service.Services.Categories;
 using TwistFood.Service.Services.Common;
 using TwistFood.Service.Services.Discounts;
@@ -42,6 +44,7 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IOrderDeteilsService, OrderDeteilService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IDiscountService, DiscountService>();
+builder.Services.AddScoped<IAdminService, AdminService>();
 
 
 var app = builder.Build();

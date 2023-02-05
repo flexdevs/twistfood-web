@@ -7,6 +7,7 @@ using TwistFood.Service.Dtos.Accounts;
 using TwistFood.Service.Interfaces;
 using TwistFood.Service.Interfaces.Admins;
 using TwistFood.Service.Security;
+using TwistFood.Service.ViewModels.Accounts;
 
 namespace TwistFood.Service.Services.Admins
 {
@@ -59,6 +60,29 @@ namespace TwistFood.Service.Services.Admins
             var result = await _unitOfWork.SaveChangesAsync();
 
             return result > 0;
+        }
+
+        public Task<bool> AdminUpdateAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<AdminViewModel> GetAsync(long Id)
+        {
+            var admin = await _unitOfWork.Admins.FindByIdAsync(Id);
+            if (admin is null) throw new StatusCodeException(HttpStatusCode.NotFound, "Admin Not found");
+
+            return new AdminViewModel()
+            {
+                Id = admin.Id,
+                BirthDate = admin.BirthDate.ToShortDateString(),
+                Email = admin.Email,
+                FirstName = admin.FirstName,
+                LastName = admin.LastName,
+                ImagePath = (admin.ImagePath is null) ? "" : admin.ImagePath,
+                PassportSeriaNumber = admin.PassportSeriaNumber,
+                PhoneNumber = admin.PhoneNumber,
+            };
         }
     }
 }
