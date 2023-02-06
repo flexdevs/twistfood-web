@@ -26,7 +26,13 @@
                                     {
                                         <tr>
                                             <td>#@order.Id</td>
-                                            <td>@order.OrderDetails</td>
+                                            <td class="desc">
+                                                @{
+                                                    foreach(var product in order.OrderDetails)
+                                                    {
+                                                        <span>@product, </span>
+                                                    }
+                                                }</td>
                                             <td>@order.paymentType</td>
                                             <td>@order.TotalSum so'm</td>
                                             <td>@order.Status</td>
@@ -57,7 +63,14 @@
                                     {
                                         <tr>
                                             <td>#@order.Id</td>
-                                            <td>@order.OrderDetails</td>
+                                            <td class="desc">
+                                                @{
+                                                    foreach (var product in order.OrderDetails)
+                                                    {
+                                                        <span>@product, </span>
+                                                    }
+                                                }
+                                            </td>
                                             <td>@order.paymentType</td>
                                             <td>@order.TotalSum so'm</td>
                                             <td>@order.Status</td>
