@@ -150,5 +150,28 @@ namespace TwistFood.Service.Services.Accounts
             }
             else throw new StatusCodeException(HttpStatusCode.NotFound, "User not found");
         }
+
+        public async Task<bool> UserUpdateAsync(AccountUpdateDto accountUpdateDto)
+        {
+            if (accountUpdateDto.Id is not null)
+            {
+                if (!string.IsNullOrEmpty(accountUpdateDto.FullName))
+                {
+                    var user = await _unitOfWork.Users.FindByIdAsync((long)accountUpdateDto.Id);
+                    if (user != null) 
+                    {
+                        user.FullName= accountUpdateDto.FullName;
+                        _unitOfWork.Users.Update(user.Id, user);
+                        var result = await _unitOfWork.SaveChangesAsync();
+                        return result > 0;
+                    }
+                    return false;
+
+                    
+                }
+                return false;
+            }
+            return false;
+        }
     }
 }
