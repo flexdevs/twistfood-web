@@ -1,0 +1,24 @@
+﻿@using TwistFood.Service.Dtos.Accounts;
+@model AccountUpdateDto
+
+<div class="d-flex justify-content-center" style="margin-top:150px; margin-bottom:20px">
+
+    <div class="card px-4 pt-4 pb-4 pe-4" style="width:500px;">
+        <div class="card-body">
+            <h3>Update order detail</h3>
+            <form asp-action="Update" asp-area="admin" asp-controller="users" asp-route-Id="@Model.Id" method="post">            
+                <div class="mt-4">
+                    <label asp-for=FullName class="control-label"></label>
+                    <input type="text" asp-for=FullName class="form-control">
+                    <span asp-validation-for=FullName class="text-danger"></span>
+                </div>
+                <div class="mt-4 mb-2 d-flex justify-content-end">
+                    <input type="submit" class="btn btn-success me-2" value="Save">
+                    <a asp-area="admin" asp-controller="users" asp-action="index" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</div>
