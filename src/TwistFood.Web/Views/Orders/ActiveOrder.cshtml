@@ -120,18 +120,21 @@
                     
                 }
             </div>
+            <div class="heading_container heading_center  mt-5">
+                <h4>
+                    Umumiy: @Model.TotalSum so'm
+                </h4>
+            </div>
+            <div class="w-100">
+                <div class="d-grid gap-2 mx-auto mt-3">
+                    <a type="submit" class="btn btn-primary btn-block" asp-controller="products" asp-action="index">Buyurtmani davom ettirish</a>
+                </div>
+                <div class="d-grid gap-2 mx-auto mt-3">
+                    <a type="button" class="btn btn-success btn-block" asp-controller="orders" asp-action="official">Buyurtmani rasmiylashtirish</a>
+                </div>
+            </div>
         </div>
-        <div class="heading_container heading_center  mt-5">
-            <h4>
-                Umumiy: @Model.TotalSum so'm
-            </h4>
-        </div>
-        <div class="d-grid gap-2 col-3 mx-auto mt-3">
-            <a type="submit" class="btn btn-primary btn-block" asp-controller="products" asp-action="index">Buyurtmani davom ettirish</a>
-        </div>
-        <div class="d-grid gap-2 col-3 mx-auto mt-3">
-            <a type="button" class="btn btn-success btn-block" asp-controller="orders" asp-action="official">Buyurtmani rasmiylashtirish</a>
-        </div>
+        
         
     </div>
 </section>
