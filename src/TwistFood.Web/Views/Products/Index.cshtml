@@ -27,42 +27,112 @@
             <div class="row grid">
                
                 @{
-                    foreach (var product in Model)
+                    if (Model.Count == 1)
                     {
-                        <div class="col-sm-6 col-lg-4 all pizza">
-                            <div class="box">
-                                <div>
-                                    <div class="img-box">
-                                        <img class="img-fluid" src="~/@product.ImagePath" alt="">
-                                    </div>
-                                    <div class="detail-box">
-                                        <h5>
-                                            @product.ProductName
-                                        </h5>
-                                        <p>
-                                            @product.ProductDescription
-                                        </p>
-                                        <div class="options">
-                                            <h6>
-                                                @product.Price so'm
-                                            </h6>
-                                            <a asp-area="" asp-controller="products" asp-action="product" asp-route-ProductId="@product.Id" type="submit" class="btn btn-icon btn-warning rounded-3">
-                                                <span class="svg-icon svg-icon-1">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                            <rect x="0" y="0" width="24" height="24" />
-                                                            <path d="M18.1446364,11.84388 L17.4471627,16.0287218 C17.4463569,16.0335568 17.4455155,16.0383857 17.4446387,16.0432083 C17.345843,16.5865846 16.8252597,16.9469884 16.2818833,16.8481927 L4.91303792,14.7811299 C4.53842737,14.7130189 4.23500006,14.4380834 4.13039941,14.0719812 L2.30560137,7.68518803 C2.28007524,7.59584656 2.26712532,7.50338343 2.26712532,7.4104669 C2.26712532,6.85818215 2.71484057,6.4104669 3.26712532,6.4104669 L16.9929851,6.4104669 L17.606173,3.78251876 C17.7307772,3.24850086 18.2068633,2.87071314 18.7552257,2.87071314 L20.8200821,2.87071314 C21.4717328,2.87071314 22,3.39898039 22,4.05063106 C22,4.70228173 21.4717328,5.23054898 20.8200821,5.23054898 L19.6915238,5.23054898 L18.1446364,11.84388 Z" fill="#fff" />
-                                                            <path d="M6.5,21 C5.67157288,21 5,20.3284271 5,19.5 C5,18.6715729 5.67157288,18 6.5,18 C7.32842712,18 8,18.6715729 8,19.5 C8,20.3284271 7.32842712,21 6.5,21 Z M15.5,21 C14.6715729,21 14,20.3284271 14,19.5 C14,18.6715729 14.6715729,18 15.5,18 C16.3284271,18 17,18.6715729 17,19.5 C17,20.3284271 16.3284271,21 15.5,21 Z" fill="#fff" />
-                                                        </g>
+                        foreach (var product in Model)
+                        {
+                            <div class="col-md-12">
+                                <div class="box">
+                                    <div>
+                                        <div class="img-box">
+                                            <img class="img-fluid" src="~/@product.ImagePath" alt="">
+                                        </div>
+                                        <div class="detail-box">
+                                            <h5>
+                                                @product.ProductName
+                                            </h5>
+                                            <div class="options">
+                                                <h6>
+                                                    @product.Price so'm
+                                                </h6>
+                                                <div class="def-number-input number-input safari_only">
+                                                    <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus"></button>
+                                                    <input class="quantity" min="0" name="quantity" value="1" type="number">
+                                                    <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+                                                </div>
+                                                <a asp-area="" asp-controller="orders" asp-action="delete" asp-route-Id="@product.Id" class="btn" style="background: #f70303;">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
                                                     </svg>
-                                                </span>
-                                            </a>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        }
                     }
+                    else if(Model.Count == 2)
+                    {
+                        foreach (var product in Model)
+                        {
+                            <div class="col-md-6">
+                                <div class="box">
+                                    <div>
+                                        <div class="img-box">
+                                            <img class="img-fluid" src="~/@product.ImagePath" alt="">
+                                        </div>
+                                        <div class="detail-box">
+                                            <h5>
+                                                @product.ProductName
+                                            </h5>
+                                            <div class="options">
+                                                <h6>
+                                                    @product.Price so'm
+                                                </h6>
+                                                <div class="def-number-input number-input safari_only">
+                                                    <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus"></button>
+                                                    <input class="quantity" min="0" name="quantity" value="1" type="number">
+                                                    <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+                                                </div>
+                                                <a asp-area="" asp-controller="orders" asp-action="delete" asp-route-Id="@product.Id" class="btn" style="background: #f70303;">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        foreach (var product in Model)
+                        {
+                            <div class="col-sm-6 col-lg-4">
+                                <div class="box">
+                                    <div>
+                                        <div class="img-box">
+                                            <img class="img-fluid" src="~/@product.ImagePath" alt="">
+                                        </div>
+                                        <div class="detail-box">
+                                            <h5>
+                                                @product.ProductName
+                                            </h5>
+                                            <div class="options">
+                                                <h6>
+                                                    @product.Price so'm
+                                                </h6>
+                                                <div class="def-number-input number-input safari_only">
+                                                    <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus"></button>
+                                                    <input class="quantity" min="0" name="quantity" value="1" type="number">
+                                                    <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+                                                </div>
+                                                <a asp-area="" asp-controller="orders" asp-action="delete" asp-route-Id="@product.Id" class="btn" style="background: #f70303;">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    
                 }
             </div>
           @await Component.InvokeAsync("Pagination",new Tuple<string,string,string,string,PagenationMetaData>("products","index","",ViewBag.search,Model.MetaData))
