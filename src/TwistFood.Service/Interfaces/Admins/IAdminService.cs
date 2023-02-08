@@ -9,6 +9,6 @@ namespace TwistFood.Service.Interfaces.Admins
         public Task<string> AdminLoginAsync(AdminLoginDto adminLoginDto);
         public Task<bool> AdminRegisterAsync(AdminRegisterDto adminRegisterDto);
         public Task<AdminViewModel> GetAsync(long Id);
-        public Task<bool> AdminUpdateAsync();
+        public Task<bool> AdminUpdateAsync(long Id,AdminUpdateDto updateDto);
     }
 }

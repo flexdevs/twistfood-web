@@ -62,9 +62,23 @@ namespace TwistFood.Service.Services.Admins
             return result > 0;
         }
 
-        public Task<bool> AdminUpdateAsync()
+
+        public async Task<bool> AdminUpdateAsync(long Id, AdminUpdateDto updateDto)
         {
-            throw new NotImplementedException();
+            var admin = await _unitOfWork.Admins.FindByIdAsync(Id);
+            if (admin is null) throw new StatusCodeException(HttpStatusCode.NotFound, "Admin Not found");
+            if(!string.IsNullOrEmpty(updateDto.FirstName)) 
+                admin.FirstName= updateDto.FirstName;
+            if (!string.IsNullOrEmpty(updateDto.LastName))
+                admin.LastName= updateDto.LastName;
+            if (!string.IsNullOrEmpty(updateDto.Email))
+                admin.Email = updateDto.Email;
+            if(updateDto.Image is not null) 
+            { 
+                admin.ImagePath = await _fileService.SaveImageAsync(updateDto.Image);
+            }
+            _unitOfWork.Admins.Update(Id, admin);
+            return (await _unitOfWork.SaveChangesAsync())>0;    
         }
 
         public async Task<AdminViewModel> GetAsync(long Id)
