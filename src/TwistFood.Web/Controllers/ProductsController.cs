@@ -37,11 +37,11 @@ public class ProductsController : Controller
         if (!String.IsNullOrEmpty(search))
         {
             ViewBag.search = search;
-            result = await _productService.SearchByNameAsync(search, new PagenationParams(page, 10));
+            result = await _productService.SearchByNameAsync(search, new PagenationParams(page, _pageSize));
         }
         else
         {
-            result = await _productService.GetAllAsync(new PagenationParams(page, 10));
+            result = await _productService.GetAllAsync(new PagenationParams(page, _pageSize));
         }
         return View(result);
     }
