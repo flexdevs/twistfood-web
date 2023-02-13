@@ -160,48 +160,46 @@ a:focus {
 }
 
 .header_section {
-  padding: 15px 0;
+  padding: 5px 0;
 
   .container-fluid {
-    padding-right: 25px;
-    padding-left: 25px;
   }
 }
 
 .navbar-brand {
-  @include second-font();
+    @include second-font();
 
-  span {
-    font-weight: bold;
-    font-size: 32px;
-    color: $white;
-  }
+    span {
+        font-weight: bold;
+        font-size: 32px;
+        color: $black;
+    }
 }
 
 .custom_nav-container {
-  padding: 0;
+    padding: 0;
 
-  .navbar-nav {
-    padding-left: 18%;
+    .navbar-nav {
+        padding-left: 18%;
 
-    .nav-item {
-      .nav-link {
-        padding: 5px 20px;
-        color: $white;
-        text-align: center;
-        text-transform: uppercase;
-        border-radius: 5px;
-        transition: all 0.3s;
-      }
+        .nav-item {
+            .nav-link {
+                padding: 5px 20px;
+                color: $black;
+                text-align: center;
+                text-transform: uppercase;
+                border-radius: 5px;
+                transition: all 0.3s;
+            }
 
-      &:hover,
-      &.active {
-        .nav-link {
-          color: $primary1;
+            &:hover,
+            &.active {
+                .nav-link {
+                    color: $primary1;
+                }
+            }
         }
-      }
     }
-  }
 }
 
 .custom_nav-container .nav_search-btn {
