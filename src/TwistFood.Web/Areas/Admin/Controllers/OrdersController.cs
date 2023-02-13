@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TwistFood.Domain.Entities.Categories;
+using TwistFood.Domain.Enums;
 using TwistFood.Service.Common.Utils;
 using TwistFood.Service.Dtos.Orders;
 using TwistFood.Service.Interfaces.Orders;
@@ -77,7 +78,7 @@ namespace TwistFood.Web.Areas.Admin.Controllers
             if (Order != null)
             {
 
-                return View(Order);
+                return View("UpdateTable",Order);
             }
             return View();
         }
@@ -86,12 +87,33 @@ namespace TwistFood.Web.Areas.Admin.Controllers
         public async Task<ViewResult> Update(long Id)
         {
             var OrderDetails = await _orderDetailService.GetAsync(Id);
+            var order = await _orderService.GetOrderWithOrderDetailsAsync(Id);
             if (OrderDetails != null)
             {
 
-                return View(OrderDetails);
+                var tuple = new Tuple<OrderDetailForAdminViewModel,OrderWithOrderDetailsViewModel>(OrderDetails, order);    
+                return View(tuple);
             }
             return View();
+        }
+        [HttpPost("order-update")]
+        public async Task<ViewResult> OrderUpdateAsync(long Id, OrderWithOrderDetailsViewModel viewModel)
+        {
+           
+                OrderUpdateDto orderUpdateDto = new OrderUpdateDto()
+                {
+                    OrderId = Id,
+                    Status = (OrderStatus) Enum.Parse(typeof(OrderStatus), viewModel.Status),
+                    PaymentType = (PaymentType)Enum.Parse(typeof(PaymentType), viewModel.paymentType)
+                };
+
+                var res = await _orderService.OrderUpdateAsync(orderUpdateDto);
+                if (res)
+                {
+                    return await UpdateTable(Id);
+                }
+                return await UpdateTable(Id);
+           
         }
 
         [HttpPost("update")]

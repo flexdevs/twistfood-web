@@ -1,4 +1,5 @@
-﻿@using TwistFood.Service.ViewModels.Orders;
+﻿@using TwistFood.Domain.Enums;
+@using TwistFood.Service.ViewModels.Orders;
 
 @model OrderWithOrderDetailsViewModel
 
@@ -10,7 +11,24 @@
                 Add item
             </a>
         </div>
+        <form asp-area="admin" asp-controller="orders" asp-action="order-update" asp-route-Id="@Model.Id" method="post">
+            <div class="d-flex justify-content-center">
+                <label class="mt-2">Payment Type:</label>
+                <div class="mx-2 mb-2">
+                    @Html.DropDownList("paymentType",new SelectList(Enum.GetValues(typeof(PaymentType))),new{ @class = "form-control" })
+                </div>
+                <label class="mt-2 mx-3">Status:</label>
+                <div class="mx-1 mb-2">
+                    @Html.DropDownList("Status",new SelectList(Enum.GetValues(typeof(OrderStatus))),new{ @class = "form-control" })
+                </div>
+                <label class="mt-2 mx-3">TotalSum: @Model.TotalSum sum</label>
+                <div>
+                    <input type="submit" class="btn btn-success me-2" value="Save">
+                </div>
+            </div>
+        </form>
     </div>
+   
     <form asp-action="Update" asp-area="admin" asp-controller="orders" asp-route-Id="@Model.Id" method="post">
      <div class="d-flex justify-content-center">
 

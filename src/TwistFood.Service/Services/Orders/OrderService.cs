@@ -167,6 +167,10 @@ namespace TwistFood.Service.Services.Orders
             {
                 order.Status = (OrderStatus)dto.Status;
             }
+            if (dto.PaymentType is not null)
+            {
+                order.PaymentType = (PaymentType)dto.PaymentType;
+            }
 
             if (dto.OperatorId is not null)
             {
@@ -184,10 +188,7 @@ namespace TwistFood.Service.Services.Orders
             {
                 order.DeliveredAt = dto.DeliveredAt.Value.ToUniversalTime();
             }
-            if (dto.TotalSum is not null)
-            {
-                order.TotalSum = dto.TotalSum.Value;
-            }
+          
             order.UpdatedAt = DateTime.UtcNow;
             _unitOfWork.Orders.Update(order.Id, order);
             await _unitOfWork.SaveChangesAsync();
