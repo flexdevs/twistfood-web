@@ -42,7 +42,36 @@
                     </td>
                     <td>@order.CreatedAt</td>
                     <td>
-                        <span class="status--process">@order.Status</span>
+                        @{
+                            if (order.Status == "InQueue")
+                            {
+                                <span class="badge text-bg-light">@order.Status</span>
+                            }
+                            else if (order.Status == "Confirmed")
+                            {
+                                <span class="badge text-bg-secondary">@order.Status</span>
+                            }
+                            else if (order.Status == "OnProcess")
+                            {
+                                <span class="badge text-bg-warning">@order.Status</span>
+                            }
+                            else if (order.Status == "OnDelivery")
+                            {
+                                <span class="badge text-bg-info">@order.Status</span>
+                            }
+                            else if (order.Status == "InPoint")
+                            {
+                                <span class="badge text-bg-primary">@order.Status</span>
+                            }
+                            else if (order.Status == "Successful")
+                            {
+                                <span class="badge text-bg-success">@order.Status</span>
+                            }
+                            else if (order.Status == "Cancelled")
+                            {
+                                <span class="badge text-bg-danger">@order.Status</span>
+                            }
+                        }           
                     </td>
                     <td>@order.TotalSum sum</td>
                     <td>

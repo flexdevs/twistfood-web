@@ -13,5 +13,6 @@ namespace TwistFood.Service.Dtos.Orders
         public DateTime? DeliveredAt { get; set; }
 
         public OrderStatus? Status { get; set; }
+        public PaymentType? PaymentType { get; set; }
     }
 }
