@@ -2,7 +2,9 @@
 <h3>TwistFood is a fast food ordering web application<h3>
 
 <h3>This application is built on  AspNet core 6 MVC, HTML, CSS<h3>
-<h4>Login Page:<h4>
+If you want to try this site, visit  [TwistFood.uz](http://Twistfood.uz)
+ 
+ <h4>Login Page:<h4>
 
  <img src="https://user-images.githubusercontent.com/110079516/218529122-95a6ae2b-7dc2-4f86-bac1-ce33aafef2b2.jpg"/>
 
@@ -42,5 +44,5 @@
      
 </h1>
      
-If you want to try this site, visit  [TwistFood.uz](http://Twistfood.uz)
+
  
